@@ -19,14 +19,21 @@ public class PlayerFoot : MonoBehaviour
         
     }
 
-
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         
-        Debug.Log("Foot");
         Player.GetComponent<PlayerController>().isGrounded();
     }
+
+
     
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+
+        Player.GetComponent<PlayerController>().isNotGrounded();
+    }
+
 
 
 }

@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         Speed = 5.0f;
         Gravity = 10.0f;
         MoveDir = Vector3.zero;
-        JumpPow = 5.0f;
+        JumpPow = 8.0f;
         isJumpButtonPressing = false;
     }
 
@@ -41,24 +41,27 @@ public class PlayerController : MonoBehaviour
     {
         
         if (Player == null) return;
-        DebugGraund = Player.isGrounded;
-        if (GameManager.Instance.MoveSliderValue() >= 0.7f)
-        {
-            MoveDir.x = 1;
-        }
-        else if(GameManager.Instance.MoveSliderValue() <= 0.3f)
-        {
-            MoveDir.x = -1;
 
-        }
-        else
+       
+        DebugGraund = Player.isGrounded;
+        MoveDir.x = 0;
+        if (GameManager.Instance.time1)
         {
-            MoveDir.x = 0;
+            if (GameManager.Instance.MoveSliderValue() >= 0.7f)
+            {
+                MoveDir.x = 1;
+            }
+            else if (GameManager.Instance.MoveSliderValue() <= 0.3f)
+            {
+                MoveDir.x = -1;
+
+            }
+            
         }
         // 속도를 곱해서 적용합니다.
         MoveDir.x *= Speed;
 
-        if (isPlayerGrounded)
+        if (isPlayerGrounded || Player.isGrounded)
         {
             MoveDir.y = 0;
             MoveDir.z = 0;
@@ -93,5 +96,8 @@ public class PlayerController : MonoBehaviour
     {
         isPlayerGrounded = true;
     }
-
+    public void isNotGrounded()
+    {
+        isPlayerGrounded = false;
+    }
 }
