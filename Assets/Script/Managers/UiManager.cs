@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class UiManager : MonoBehaviour
 {
@@ -19,7 +21,8 @@ public class UiManager : MonoBehaviour
 
     [SerializeField]
     GameObject TetrisTimeUI;
-    GameManager.pair[] NextTetris;
+    int[] NextTetrisIDX = new int [5];
+    int[] NextTetrisNeedle = new int[5];
 
 
 
@@ -27,12 +30,17 @@ public class UiManager : MonoBehaviour
     string Norm = "block";
     string Needle = "needleblock";
 
+    private void Awake()
+    {
+        instance = this;
 
+    }
     private void Start()
     {
+        
         Stage = TetrisStage.GetComponent<Tetris>();
-        instance = this;
-        //NextBlockIMG = Resources.LoadAll<Sprite>(Path + Norm)
+
+
     }
 
     public void ToTime1()           //player
@@ -41,38 +49,7 @@ public class UiManager : MonoBehaviour
         PlayerTimeUI.SetActive(true);
         TetrisTimeUI.SetActive(false);
 
-        NextTetris = GameManager.Instance.GetTetrisArr();
-        for(int index = 0; index < 5; index++)
-        {
-            if(NextTetris[index].first != -1)
-            {
-                if (NextTetris[index].second < 5)
-                {
-                    if(Resources.Load<Sprite>(Path + Norm + index.ToString()) !=null )
-                        NextBlock[index].GetComponent<Image>       <Image>().sprite = Resources.Load<Sprite>(Path + Norm + index.ToString());
-                    else
-                    {
-                        Debug.Log("????");
-                    }
-                }
-                else
-                {
-                    if (Resources.Load<Sprite>(Path + Needle + index.ToString()) != null)
-
-                        NextBlock[index].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(Path + Needle + index.ToString());
-                    else
-                    {
-                        Debug.Log("!!!!!");
-
-                    }
-                }
-            }
-            else
-            {
-                NextBlock[index].GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprite/Empty");
-            }
-        }
-
+        NextTTShow();
     }
     public void ToTime2()
     {
@@ -92,4 +69,53 @@ public class UiManager : MonoBehaviour
         Stage.TetrisDown();
     }
 
+
+    public void NextTTShow()
+    {
+        
+        NextTetrisIDX = GameManager.Instance.GetTetrisArrIDX();
+        NextTetrisNeedle = GameManager.Instance.GetTetrisArrNeedle();
+
+        Debug.Log("INUI Index"  +NextTetrisIDX[0] + NextTetrisIDX[1] + NextTetrisIDX[2] + NextTetrisIDX[3] + NextTetrisIDX[4]);
+    
+
+        for (int index = 0; index < 5; index++)
+        {
+            if (NextTetrisIDX[index] != -1)
+            {
+                if (NextTetrisNeedle[index]< GameManager.Instance.normPer)
+                {
+                    if (Resources.Load<Sprite>(Path + Norm + NextTetrisIDX[index].ToString()) != null)
+                    {
+                        NextBlock[index].GetComponent<Image>().sprite = Resources.Load<Sprite>(Path + Norm + NextTetrisIDX[index].ToString());
+                        
+                    }
+                    else
+                    {
+                        Debug.Log("????");
+                    }
+                }
+                else
+                {
+                    if (Resources.Load<Sprite>(Path + Needle + NextTetrisIDX[index].ToString()) != null)
+                    {
+
+                        NextBlock[index].GetComponent<Image>().sprite = Resources.Load<Sprite>(Path + Needle + NextTetrisIDX[index].ToString());
+                        
+                    }
+                    else
+                    {
+                        Debug.Log("!!!!!");
+
+                    }
+                }
+            }
+            else
+            {
+                NextBlock[index].GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprite/Empty");
+            }
+
+
+        }
+    }
 }

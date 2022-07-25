@@ -31,7 +31,6 @@ public class Lava : MonoBehaviour
 
     public void StartLavaMove()
     {
-        Debug.Log("Start");
         StartCoroutine("LavaUp");
         
     }

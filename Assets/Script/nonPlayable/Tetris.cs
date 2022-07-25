@@ -24,7 +24,8 @@ public class Tetris : MonoBehaviour
     private int halfHeight;
     //private int TetrisStartinHeight;
 
-
+    int[] NextTetrisIDX = new int[5];
+    int[] NextTetrisNeedle = new int[5];
 
     private float nextFallTime;
     Sprite[] Sprites;
@@ -36,16 +37,21 @@ public class Tetris : MonoBehaviour
 
     int needleORNorm;
     int normPer;
-    int tetrisMaxnum = 5;
+    int _tetrisMaxnum = 5;
+
+    int tetrisMaxnum { get { return _tetrisMaxnum; } set { _tetrisMaxnum = value; } }
     bool isRotate = false;
 
 
     bool tick = true;
 
+
+    
     private void Start()
     {
         gameoverPanel.SetActive(false);
-        
+
+        GameManager.Instance.RandArrCreate();
 
         halfWidth = Mathf.RoundToInt(boardWidth * 0.5f);
         halfHeight = Mathf.RoundToInt(boardHeight * 0.5f);
@@ -61,14 +67,14 @@ public class Tetris : MonoBehaviour
             col.transform.parent = boardNode;
         }
 
-        CreateTetromino();
 
         // 초기 set
-        normPer= 7;
         //moveDownFast = false;
+       
 
         StartCoroutine("Tick");
-
+        CreateTetromino();
+        
     }
 
     void Update()
@@ -106,15 +112,6 @@ public class Tetris : MonoBehaviour
                     }
 
                 }
-
-                /*
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    while (MoveTetromino(Vector3.down))
-                    {
-                    }
-                }
-                */
 
                 // 아래로 떨어지는 경우는 강제로 이동시킵니다.
                 if (Time.time > nextFallTime)
@@ -169,7 +166,8 @@ public class Tetris : MonoBehaviour
 
             if ((int)moveDir.y == -1 && (int)moveDir.x == 0 && isRotate == false)
             {
-                GameManager.Instance.tetris_Num = GameManager.Instance.tetris_Num + 1;
+                GameManager.Instance.tetris_Num = GameManager.Instance.tetris_Num + 1;          //38
+                Debug.Log("GameManager.Instance.tetris_Num " + GameManager.Instance.tetris_Num);
                 if (GameManager.Instance.time1) { return false; }
                 AddToBoard(tetrominoNode);
                 //CheckBoardColumn();
@@ -228,7 +226,7 @@ public class Tetris : MonoBehaviour
     }
 
     // 타일 생성
-    Tile CreateTile(Transform parent, Vector2 position, Sprite[] imgs, int index = 0, int order = 1, bool isNeedle = false, bool isladder = false)
+    Tile CreateTile(Transform parent, Vector2 position, Sprite[] imgs, int index = 0, bool isNeedle = false, int order = 1, bool isladder = false)
     {
         var go = Instantiate(tilePrefab);
         go.transform.parent = parent;
@@ -278,13 +276,21 @@ public class Tetris : MonoBehaviour
     // 테트로미노 생성
     void CreateTetromino()
     {
-        int index = Random.Range(0, 10);
+        NextTetrisIDX = GameManager.Instance.GetTetrisArrIDX();
+        NextTetrisNeedle = GameManager.Instance.GetTetrisArrNeedle();
+        int index = NextTetrisIDX[0];
+        needleORNorm = NextTetrisNeedle[0];
+        Debug.Log("Tetris Index"  +NextTetrisIDX[0] + NextTetrisIDX[1] + NextTetrisIDX[2] + NextTetrisIDX[3] + NextTetrisIDX[4]);
+        GameManager.Instance.PopTetris();
+
+        if (UiManager.instance)
+        UiManager.instance.NextTTShow();
+       
         
         tetrominoNode.rotation = Quaternion.identity;
         tetrominoNode.position = new Vector2(0, -halfHeight+ StartHeight);
-        needleORNorm = Random.Range(0, 10);
-
-        if (needleORNorm <= normPer)
+        
+        if (needleORNorm < GameManager.Instance.normPer)
         {
             Sprites = Resources.LoadAll<Sprite>(Path + Norm + index.ToString());
         }
