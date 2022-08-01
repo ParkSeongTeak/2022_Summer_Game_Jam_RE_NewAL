@@ -2,6 +2,11 @@
 
 public class Tile : MonoBehaviour
 {
+
+    GameObject Ladder;
+    bool _useLadder = false;
+    public bool UseLadder { get { return _useLadder; }  set { _useLadder = value; } }
+
     public Color color
     {
         set
@@ -39,4 +44,30 @@ public class Tile : MonoBehaviour
             Debug.LogError("You need to SpriteRenderer for Block");
         }
     }
+
+    private void Start()
+    {
+        Ladder = gameObject.transform.GetChild(1).gameObject;
+
+        if(_useLadder)
+        {
+            Ladder.SetActive(true);
+        }
+        else
+        {
+            Ladder.SetActive(false);
+        }
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+        if (this.transform.tag == "Needle"  && collision.gameObject.layer == 3)
+        {
+            Debug.Log("Needle");
+            GameManager.Instance.GameOver();
+        }
+    }
+
 }

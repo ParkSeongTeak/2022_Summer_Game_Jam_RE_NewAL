@@ -226,16 +226,20 @@ public class Tetris : MonoBehaviour
     }
 
     // 타일 생성
-    Tile CreateTile(Transform parent, Vector2 position, Sprite[] imgs, int index = 0, bool isNeedle = false, int order = 1, bool isladder = false)
+    Tile CreateTile(Transform parent, Vector2 position, Sprite[] imgs, int index = 0, bool isNeedle = false, bool isladder = false,int order = 1)
     {
         var go = Instantiate(tilePrefab);
         go.transform.parent = parent;
         go.transform.localPosition = position;
         go.GetComponent<SpriteRenderer>().sprite = imgs[index];
-        
-
+        if (isNeedle)
+        {
+            go.transform.tag = "Needle";
+        }
         var tile = go.GetComponent<Tile>();
         tile.sortingOrder = order;
+        tile.UseLadder = isladder;
+
         return tile;
     }
 
@@ -247,17 +251,7 @@ public class Tetris : MonoBehaviour
         Color color = Color.gray;
         Sprites = Resources.LoadAll<Sprite>(Path + Norm + 0.ToString());
 
-        // 타일 보드
-        /*
-        color.a = 0.5f;
-        for (int x = -halfWidth; x < halfWidth; ++x)
-        {
-            for (int y = halfHeight; y > -halfHeight; --y)
-            {
-                CreateTile(backgroundNode, new Vector2(x, y), Sprites, 0);
-            }
-        }
-        */
+      
         // 좌우 테두리
         color.a = 1.0f;
         for (int y = halfHeight; y > -halfHeight; --y)
@@ -276,26 +270,44 @@ public class Tetris : MonoBehaviour
     // 테트로미노 생성
     void CreateTetromino()
     {
+
+        bool isNeedle;
+        bool isladder = false;
         NextTetrisIDX = GameManager.Instance.GetTetrisArrIDX();
         NextTetrisNeedle = GameManager.Instance.GetTetrisArrNeedle();
         int index = NextTetrisIDX[0];
         needleORNorm = NextTetrisNeedle[0];
-        Debug.Log("Tetris Index"  +NextTetrisIDX[0] + NextTetrisIDX[1] + NextTetrisIDX[2] + NextTetrisIDX[3] + NextTetrisIDX[4]);
+  
+        //Debug.Log("Tetris Index"  +NextTetrisIDX[0] + NextTetrisIDX[1] + NextTetrisIDX[2] + NextTetrisIDX[3] + NextTetrisIDX[4]);
+                
         GameManager.Instance.PopTetris();
-
+        
         if (UiManager.instance)
         UiManager.instance.NextTTShow();
-       
-        
+
         tetrominoNode.rotation = Quaternion.identity;
         tetrominoNode.position = new Vector2(0, -halfHeight+ StartHeight);
         
         if (needleORNorm < GameManager.Instance.normPer)
         {
+            isNeedle = false;
+            isladder = false;
+
             Sprites = Resources.LoadAll<Sprite>(Path + Norm + index.ToString());
+        }
+        else if (needleORNorm < GameManager.Instance.ladderPer)
+        {
+            isNeedle = false;
+            isladder = true;
+
+            Sprites = Resources.LoadAll<Sprite>(Path + Norm + index.ToString());
+
         }
         else
         {
+            isNeedle = true;
+            isladder = false;
+
             Sprites = Resources.LoadAll<Sprite>(Path + Needle + index.ToString());
 
         }
@@ -304,20 +316,20 @@ public class Tetris : MonoBehaviour
         {
             // ㅁ. 
             case 0:
-                CreateTile(tetrominoNode, new Vector2(0f, 1.0f), Sprites,0 );
-                CreateTile(tetrominoNode, new Vector2(1f, 1.0f), Sprites,1 );
-                CreateTile(tetrominoNode, new Vector2(0f, 0.0f), Sprites,3 );
-                CreateTile(tetrominoNode, new Vector2(1f, 0.0f), Sprites,4 );
-                CreateTile(tetrominoNode, new Vector2(2f, 0.0f), Sprites,5 );
+                CreateTile(tetrominoNode, new Vector2(0f, 1.0f), Sprites,0, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(1f, 1.0f), Sprites,1, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(0f, 0.0f), Sprites,3, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(1f, 0.0f), Sprites,4, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(2f, 0.0f), Sprites,5, isNeedle, isladder);
 
                 break;
 
             // Z 
             case 1:
-                CreateTile(tetrominoNode, new Vector2(-1f, 1f), Sprites,0 );
-                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites, 1);
-                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 4);
-                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites, 5);
+                CreateTile(tetrominoNode, new Vector2(-1f, 1f), Sprites,0, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites, 1, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 4, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites, 5, isNeedle, isladder);
                 
 
                 break;
@@ -325,63 +337,63 @@ public class Tetris : MonoBehaviour
             // ㄴ.
             case 2:
                 
-                CreateTile(tetrominoNode, new Vector2(-1f, 1.0f), Sprites, 0);
-                CreateTile(tetrominoNode, new Vector2(-1f, 0.0f), Sprites, 3);
-                CreateTile(tetrominoNode, new Vector2(0f, 0.0f), Sprites, 4);
-                CreateTile(tetrominoNode, new Vector2(1f, 0.0f), Sprites, 5);
+                CreateTile(tetrominoNode, new Vector2(-1f, 1.0f), Sprites, 0, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(-1f, 0.0f), Sprites, 3, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(0f, 0.0f), Sprites, 4, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(1f, 0.0f), Sprites, 5, isNeedle, isladder);
                 break;
 
             // O : 노란색
             case 3:
-                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites, 1);
-                CreateTile(tetrominoNode, new Vector2(-1f, 0f),Sprites, 3 );
-                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 4 );
-                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites, 5 );
+                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites, 1, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(-1f, 0f),Sprites, 3, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 4, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites, 5, isNeedle, isladder);
                 break;
 
             // S : 녹색
             case 4:
-                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 1);
-                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites, 2);
-                CreateTile(tetrominoNode, new Vector2(-1f, -1f), Sprites,3 );
-                CreateTile(tetrominoNode, new Vector2(0f, -1f), Sprites,4 );
+                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 1, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites, 2, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(-1f, -1f), Sprites,3, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(0f, -1f), Sprites,4, isNeedle, isladder);
                 break;
 
             // L : 자주색
             case 5:
-                CreateTile(tetrominoNode, new Vector2(1f, 1f), Sprites, 2);
-                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites,3 );
-                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites,4 );
-                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites,5 );
+                CreateTile(tetrominoNode, new Vector2(1f, 1f), Sprites, 2, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites,3, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites,4, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites,5, isNeedle, isladder);
                 break;
 
             // ㅡ : 빨간색
             case 6:
-                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites,0 );
-                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites,1 );
-                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites,2 );
-                CreateTile(tetrominoNode, new Vector2(2f, 0f), Sprites,3 );
+                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites,0, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites,1, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites,2, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(2f, 0f), Sprites,3, isNeedle, isladder);
                 break;
 
             //ㅁ : 
             case 7:
-                CreateTile(tetrominoNode, new Vector2(-1f, 1f), Sprites,0);
-                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites,1);
-                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites,2);
-                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites,3);
+                CreateTile(tetrominoNode, new Vector2(-1f, 1f), Sprites,0, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites,1, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites,2, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites,3, isNeedle, isladder);
                 break;
 
             case 8:
-                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites, 1);
-                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites, 2);
-                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 3);
+                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites, 1, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites, 2, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 3, isNeedle, isladder);
                 break;
             case 9:
-                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites, 1);
-                CreateTile(tetrominoNode, new Vector2(1f, 1f), Sprites, 2);
-                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites, 3);
-                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 4);
-                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites, 5);
+                CreateTile(tetrominoNode, new Vector2(0f, 1f), Sprites, 1, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(1f, 1f), Sprites, 2, isNeedle);
+                CreateTile(tetrominoNode, new Vector2(-1f, 0f), Sprites, 3, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(0f, 0f), Sprites, 4, isNeedle, isladder);
+                CreateTile(tetrominoNode, new Vector2(1f, 0f), Sprites, 5, isNeedle, isladder);
                 break;
             
         }

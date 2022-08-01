@@ -1,15 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
 
+    [SerializeField]
+    GameObject Foot;
+    [SerializeField]
+    GameObject Head;
+    [SerializeField]
+    GameObject Hands;
+
     //debug용 public 만든 후 삭제할것
-    public bool DebugGraund;
-    public Vector3 DebugDir = new Vector3();
-
-
-
-
+    //public bool DebugGraund;
+    //public Vector3 DebugDir = new Vector3();
 
 
     CharacterController Player; // 제어할 캐릭터 컨트롤러
@@ -43,7 +48,6 @@ public class PlayerController : MonoBehaviour
         if (Player == null) return;
 
        
-        DebugGraund = Player.isGrounded;
         MoveDir.x = 0;
         if (GameManager.Instance.time1)
         {
@@ -78,7 +82,6 @@ public class PlayerController : MonoBehaviour
             // 중력의 영향을 받아 아래쪽으로 하강합니다.           
             MoveDir.y -= Gravity * Time.deltaTime;
         }
-        DebugDir = MoveDir;
         Player.Move(MoveDir * Time.deltaTime);
     }
 
@@ -86,6 +89,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isPlayerGrounded)
         {
+            StartCoroutine("JumpStart");
             MoveDir.y = JumpPow;
             isJumpButtonPressing = true;
             isPlayerGrounded = false;
@@ -99,5 +103,18 @@ public class PlayerController : MonoBehaviour
     public void isNotGrounded()
     {
         isPlayerGrounded = false;
+    }
+
+    IEnumerator JumpStart()
+    {
+        Debug.Log("Jumpstart_sequence");
+        Foot.SetActive(false);
+        yield return new WaitForSeconds(0.25f);
+        Foot.SetActive(true);
+        Debug.Log("JumpEnd");
+
+
+
+
     }
 }

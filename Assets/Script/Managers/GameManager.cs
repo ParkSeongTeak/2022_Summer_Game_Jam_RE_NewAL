@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     //Time관련 값들 Time1 -> Player     Time2 -> Tetris
     bool _time1;     //PlayerTime
     bool _time2;     //TetrisTime
+    
     public bool time1
     {
         get { return _time1; }
@@ -31,13 +32,21 @@ public class GameManager : MonoBehaviour
         set { _time2 = value; _time1 = !(value); }
     }
 
-
+    public bool GameOverBool
+    {
+        get { return (!(_time2 || _time1 )); }
+        set { if (value) { _time2 = false; _time1 = false; } }
+    }
 
     // Tetris 
     int _tetris_Num;
     int tetrisMaxnum = 5;
-    int _normPer = 7;            // n/10 per n0 퍼센트
+    int _normPer = 4;            // n/10 per n0 퍼센트
     public int normPer { get { return _normPer; } set { _normPer = value; }  }
+
+
+    int _ladderPer = 5;            // n/10 per n0 퍼센트
+    public int ladderPer { get { return _ladderPer; } set { _ladderPer = value; } }
 
     int[] NextTetrisIDX = new int[5];
     int[] NextTetrisNeedle = new int[5];
@@ -83,7 +92,7 @@ public class GameManager : MonoBehaviour
     {
 
         Init();
-           
+        
         time2 = true;
         LavaStartPos = new Vector3(0.7f, -60f, 0f);
         _cameraPlayerHeight = 3f; 
@@ -199,7 +208,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < 5; i++)
             {
                 NextTetrisIDX[i] = Random.Range(0, 10);
-                NextTetrisNeedle[i] = Random.Range(0, 10);
+                NextTetrisNeedle[i] = Random.Range(0, 7);
                 
             }
             Debug.Log("Now" + " And " + NextTetrisIDX[0] + NextTetrisIDX[1] + NextTetrisIDX[2] + NextTetrisIDX[3] + NextTetrisIDX[4]);
@@ -209,6 +218,8 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        GameOverBool = true;
+        UiManager.instance.GameOverIMG();
 
     }
 
