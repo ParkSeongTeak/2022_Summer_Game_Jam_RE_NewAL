@@ -16,17 +16,16 @@ public class GameManager : MonoBehaviour
     public static InputManager InputSys { get { return Instance._input; } }
 
 
-
     //Time관련 값들 Time1 -> Player     Time2 -> Tetris
     bool _time1;     //PlayerTime
     bool _time2;     //TetrisTime
     
-    public bool time1
+    public bool time1       //PlayerTime
     {
         get { return _time1; }
         set { _time1 = value; _time2 = !(value); }
     }
-    public bool time2
+    public bool time2       //TetrisTime
     {
         get { return _time2; }
         set { _time2 = value; _time1 = !(value); }

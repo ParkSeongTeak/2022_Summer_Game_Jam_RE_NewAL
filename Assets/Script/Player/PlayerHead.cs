@@ -8,11 +8,13 @@ public class PlayerHead : MonoBehaviour
     {
         Debug.Log("Head");
 
-        if (collision.transform.gameObject.layer == 6)
+        if (collision.transform.gameObject.layer == 6  && GameManager.Instance.time2)
         {
             Debug.Log("Die");
             GameManager.Instance.GameOver();
+
         }
     }
 
+    
 }

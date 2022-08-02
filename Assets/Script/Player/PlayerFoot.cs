@@ -7,7 +7,8 @@ public class PlayerFoot : MonoBehaviour
 
     GameObject Player;
     Vector3 _destPos;
-    bool _moveToDest = false;
+   
+
 
     float RayLenght = 0.25f; 
 
@@ -20,8 +21,6 @@ public class PlayerFoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     
-
         
         Ray ray = new Ray();
         ray.origin = this.transform.position;
@@ -31,12 +30,13 @@ public class PlayerFoot : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, RayLenght, LayerMask.GetMask("Block")))
         {
-
+         
             Debug.Log("OnGround");
             Player.GetComponent<PlayerController>().isGrounded();
             if(hit.transform.gameObject.tag == "Needle")
             {
                 Debug.Log("Needle");
+
                 GameManager.Instance.GameOver();
             }
         }
@@ -60,6 +60,7 @@ public class PlayerFoot : MonoBehaviour
             Debug.Log("Needle");
             GameManager.Instance.GameOver();
         }
+        
     }
 
 
