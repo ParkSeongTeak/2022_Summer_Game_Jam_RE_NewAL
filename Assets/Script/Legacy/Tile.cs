@@ -68,6 +68,17 @@ public class Tile : MonoBehaviour
             Debug.Log("Needle");
             GameManager.Instance.GameOver();
         }
+        else if (collision.gameObject.layer == 3 && GameManager.Instance.time1 && this.gameObject.transform.parent.name != "BG")
+        {
+            if( GameManager.Instance.now_Score < int.Parse(this.gameObject.transform.parent.name))
+            {
+                GameManager.Instance.now_Score = int.Parse(this.gameObject.transform.parent.name);
+                UiManager.instance.Now_Score_Ui_Update();
+
+                Debug.Log("this.gameObject.transform.parent: " + int.Parse(this.gameObject.transform.parent.name) +" "+ collision.name+ " this.gameObject: "+ this.gameObject.name);
+            } 
+        }
+
     }
 
 }

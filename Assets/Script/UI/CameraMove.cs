@@ -17,13 +17,16 @@ public class CameraMove : MonoBehaviour
     private void Awake()
     {
         CameraPos = this.gameObject.transform.position;
-        Screen.SetResolution(1440  , 2560, true);
+       
 
     }
 
     void Start()
     {
-        
+        //Screen.SetResolution(1440, 2560, true);
+
+        //Debug.Log("Hello _ World");
+            
     }
 
     // Update is called once per frame

@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class UiManager : MonoBehaviour
 {
@@ -27,16 +28,24 @@ public class UiManager : MonoBehaviour
 
     [SerializeField]
     GameObject TetrisTimeUI;
-    int[] NextTetrisIDX = new int [5];
+    int[] NextTetrisIDX = new int[5];
     int[] NextTetrisNeedle = new int[5];
 
 
     string Path = "Sprite/TetrisBlock/";
     string Norm = "block";
     string Needle = "needleblock";
-    
+
 
     float ALine = 60f;  //Ui 한변의 길이 
+
+    //포인트
+    [SerializeField]
+    TextMeshProUGUI now_Score;
+
+
+    [SerializeField]
+    TextMeshProUGUI Best_Score;
 
 
     private void Awake()
@@ -151,7 +160,6 @@ public class UiManager : MonoBehaviour
                      CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 0.0f), Sprites, 3, isNeedle, isladder);
                      CreateUiTile(NextBlock_Dummy[index], new Vector2(1f, 0.0f), Sprites, 4, isNeedle, isladder);
                      CreateUiTile(NextBlock_Dummy[index], new Vector2(2f, 0.0f), Sprites, 5, isNeedle, isladder);
-
                      break;
 
                  // Z 
@@ -160,8 +168,6 @@ public class UiManager : MonoBehaviour
                      CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 1f), Sprites, 1, isNeedle);
                      CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 0f), Sprites, 4, isNeedle, isladder);
                      CreateUiTile(NextBlock_Dummy[index], new Vector2(1f, 0f), Sprites, 5, isNeedle, isladder);
-
-
                      break;
 
                  // ㄴ.
@@ -264,11 +270,39 @@ public class UiManager : MonoBehaviour
         
     }
 
+    public void Now_Score_Ui_Update()
+    {
+        now_Score.text = GameManager.Instance.now_Score.ToString();
+    }
+    public void Best_Score_Ui_Update()
+    {
+        Best_Score.text = GameManager.Instance.Best_Score.ToString();
+    }
+
 
     public void GameOverIMG()
     {
         GameOverScene.SetActive(true);
     }
+
+    public void Load_Game_Scene()
+    {
+        SceneManager.LoadScene("GameScene");
+    }
+
+    public void Pause_Start()
+    {
+        Time.timeScale = 0;
+        GameManager.Instance.Lava.GetComponent<Lava>().StopLavaMove();
+    }
+
+    public void Pause_End()
+    {
+        Time.timeScale = 1.0f;
+        GameManager.Instance.Lava.GetComponent<Lava>().StartLavaMove();
+
+    }
+
 }
 
 

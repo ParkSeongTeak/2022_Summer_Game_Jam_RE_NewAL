@@ -7,8 +7,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
 
-
-    
     // GameManager 기본 설정값
     static GameManager instance;
     public static GameManager Instance { get { Init(); return instance; } }
@@ -51,7 +49,6 @@ public class GameManager : MonoBehaviour
     int[] NextTetrisNeedle = new int[5];
 
 
-
     public int tetris_Num { 
         get { return _tetris_Num; } 
         set { 
@@ -67,7 +64,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    GameObject Lava;
+    public GameObject Lava;
     Vector3 LavaStartPos;
 
 
@@ -75,6 +72,17 @@ public class GameManager : MonoBehaviour
     float _cameraPlayerHeight;
     public float CameraPlayerHeight { get { return _cameraPlayerHeight; } }
 
+
+    // 스코어 관련 
+
+    int _now_Score = -1;
+    public int now_Score { get { return _now_Score; } set { _now_Score = value; } } 
+    int _Best_Score = 0;
+    public int Best_Score { get { return _Best_Score; } set { _Best_Score = value; } }
+
+    string Best_Score_Str = "BBEESSTT__SSCCRREE";
+    bool Clear = false;
+    string Clear_Str = "CCLLEEAARR";
 
 
     //tmp
@@ -109,9 +117,18 @@ public class GameManager : MonoBehaviour
         UiManager.instance.ToTime1();
         UiManager.instance.ToTime2();
         
-
+        
 
     }
+
+    public void BestScoreUpdate()
+    {
+        if(_now_Score > _Best_Score)
+        {
+            PlayerPrefs.SetInt(Best_Score_Str, _Best_Score);
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -219,7 +236,7 @@ public class GameManager : MonoBehaviour
     {
         GameOverBool = true;
         UiManager.instance.GameOverIMG();
-
+        BestScoreUpdate();
     }
 
 }

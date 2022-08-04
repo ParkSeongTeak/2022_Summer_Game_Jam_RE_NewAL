@@ -52,14 +52,26 @@ public class PlayerFoot : MonoBehaviour
  
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Lava")
-            GameManager.Instance.GameOver();
 
-        if (collision.transform.tag == "Needle")
+        string tag = collision.transform.tag;
+
+        switch (tag)
         {
-            Debug.Log("Needle");
-            GameManager.Instance.GameOver();
+            case "Lava" :
+                GameManager.Instance.GameOver();
+                break;
+            case "Needle":
+                //GameManager.Instance.GameOver(); // 이건 Tile 의 Trigger에서 처리 
+                break;
+            default:
+                //if( GameManager.Instance.time1)
+                //{
+                        //점수 계산도 Tile에서 하는게 맞을듯
+                //}
+
+                break;
         }
+       
         
     }
 
