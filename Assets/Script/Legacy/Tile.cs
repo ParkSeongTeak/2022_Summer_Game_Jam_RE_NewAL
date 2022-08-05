@@ -59,7 +59,7 @@ public class Tile : MonoBehaviour
         }
 
     }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
@@ -68,6 +68,7 @@ public class Tile : MonoBehaviour
             Debug.Log("Needle");
             GameManager.Instance.GameOver();
         }
+        
         else if (collision.gameObject.layer == 3 && GameManager.Instance.time1 && this.gameObject.transform.parent.name != "BG")
         {
             if( GameManager.Instance.now_Score < int.Parse(this.gameObject.transform.parent.name))
@@ -78,7 +79,7 @@ public class Tile : MonoBehaviour
                 Debug.Log("this.gameObject.transform.parent: " + int.Parse(this.gameObject.transform.parent.name) +" "+ collision.name+ " this.gameObject: "+ this.gameObject.name);
             } 
         }
-
+        
     }
 
 }

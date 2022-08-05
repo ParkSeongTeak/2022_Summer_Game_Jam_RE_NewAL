@@ -48,10 +48,11 @@ public class Lava : MonoBehaviour
             if (GameManager.Instance.time1) {
                 lava.transform.position = lavaVec;
                 lavaVec.y += upheight;
-                yield return new WaitForSeconds(uptime);
-
+                
             }
-        }        
+            yield return new WaitForSeconds(uptime);
+
+        }
     }
 
 }

@@ -91,17 +91,20 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         for (int i = 0; i < 5; i++) { NextTetrisIDX[i] = -1; }
+        Best_Score = PlayerPrefs.GetInt(Best_Score_Str, 0);
+        Debug.Log(GameManager.Instance.Best_Score);
+
     }
 
-    
+
 
     void Start()
     {
 
         Init();
-        
+       
         time2 = true;
-        LavaStartPos = new Vector3(0.7f, -60f, 0f);
+        LavaStartPos = new Vector3(0.7f, -750f, 0f);
         _cameraPlayerHeight = 3f; 
         RandArrCreate();
 
@@ -123,9 +126,12 @@ public class GameManager : MonoBehaviour
 
     public void BestScoreUpdate()
     {
-        if(_now_Score > _Best_Score)
+        if(now_Score > Best_Score)
         {
-            PlayerPrefs.SetInt(Best_Score_Str, _Best_Score);
+            PlayerPrefs.SetInt(Best_Score_Str, now_Score);
+
+            Debug.Log(GameManager.Instance.Best_Score);
+
         }
     }
 
@@ -155,7 +161,7 @@ public class GameManager : MonoBehaviour
 
             }
 
-            DontDestroyOnLoad(GM);
+            //DontDestroyOnLoad(GM);
             instance = GM.GetComponent<GameManager>();
 
 
@@ -210,6 +216,7 @@ public class GameManager : MonoBehaviour
         tetris_Num = 0;
         time2 = true;
         Lava.GetComponent<Lava>().StopLavaMove();
+        Tetris.tetris.CreateTetromino();
 
     }
     // Start is called before the first frame update
@@ -237,6 +244,13 @@ public class GameManager : MonoBehaviour
         GameOverBool = true;
         UiManager.instance.GameOverIMG();
         BestScoreUpdate();
+
+
+    }
+    public void ReStart()
+    {
+        Destroy(this);
+        
     }
 
 }

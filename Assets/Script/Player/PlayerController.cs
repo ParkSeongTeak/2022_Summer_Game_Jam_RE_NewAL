@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
+    [SerializeField]
+    GameObject IMG;
     [SerializeField]
     GameObject Foot;
     [SerializeField]
@@ -23,10 +24,12 @@ public class PlayerController : MonoBehaviour
         Horizon,
         Leftvertical,
         Rightvertical,
-
         LeftExitLadder,
         RightExitLadder,
     }
+
+
+    
 
     public State nowState;
     public State beforeState;
@@ -79,63 +82,20 @@ public class PlayerController : MonoBehaviour
         {
             case State.Horizon:
                 state = "Horizon";
-                /*
-                if (beforeState != nowState)
-                {
-                    if (beforeState == State.Leftvertical)
-                    {
-                        nowState = State.LeftExitLadder;
-                        ExitUp = 5;
-                        //ExitHor = 5;
-                        break;
-                    }
-                    if (beforeState == State.Rightvertical)
-                    {
-                        nowState = State.RightExitLadder;
-                        ExitUp = 5;
-                        //ExitHor = 5;
-                        break;
-                    }
-                    
-                }
-                */
+               
                 beforeState = State.Horizon;
 
                 break;
             case State.Leftvertical:
                 
                 state = "Leftvertical";
-                /*
-                if (beforeState != nowState)
-                {
-                    
-                    int i = 20;
-                    VerticalDir.y = 1;
-                    while (i-- > 0)
-                    {
-                        Player.Move(VerticalDir * Speed * Time.deltaTime);
-                        Debug.Log("Enter Ladder");
-                    }
-                }
-                */
+               
                 beforeState = State.Leftvertical;
 
                 break;
             case State.Rightvertical:
                 state = "Rightvertical";
-                /*
-                if (beforeState != nowState)
-                {
-
-                    int i = 20;
-                    VerticalDir.y = 1;
-                    while (i-- > 0)
-                    {
-                        Player.Move(VerticalDir * Time.deltaTime);
-                        Debug.Log("Enter Ladder");
-                    }
-                }
-                */
+               
                 beforeState = State.Rightvertical;
 
                 break;
@@ -187,6 +147,8 @@ public class PlayerController : MonoBehaviour
         {
             if (GameManager.Instance.MoveSliderValue() >= 0.7f)
             {
+                IMG.transform.localEulerAngles = new Vector3(0, 0, 0);
+
                 switch (nowState)
                 {
                     case State.Horizon:
@@ -212,6 +174,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (GameManager.Instance.MoveSliderValue() <= 0.3f)
             {
+                IMG.transform.localEulerAngles = new Vector3(0, 180, 0);
                 switch (nowState)
                 {
                     case State.Horizon:
@@ -265,7 +228,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Àß µé¾î¿È");
+            
             HorizonDir *= Speed;
             Player.Move(HorizonDir * Time.deltaTime);
             HorizonDir.y = 0;

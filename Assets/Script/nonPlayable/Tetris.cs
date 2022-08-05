@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class Tetris : MonoBehaviour
 {
+    public static Tetris tetris;
+
     [Header("Editor Objects")]
     public GameObject tilePrefab;
     public Transform backgroundNode;
     public Transform boardNode;
     public Transform tetrominoNode;
     public GameObject gameoverPanel;
+    public GameObject Player;
 
     [Header("Game Settings")]
     [Range(4, 40)]
     int boardWidth = 10;
-    [Range(5, 200)]
+    [Range(5, 1500)]
     public int boardHeight = 20;
-    public int StartHeight = 20;
+    public int StartHeight = 25;
 
     public float fallCycle = 1.0f;
 
@@ -49,6 +52,9 @@ public class Tetris : MonoBehaviour
     
     private void Start()
     {
+        Debug.Log("RERE");
+        tetris = this;
+
         gameoverPanel.SetActive(false);
 
         GameManager.Instance.RandArrCreate();
@@ -68,12 +74,9 @@ public class Tetris : MonoBehaviour
         }
 
 
-        // 초기 set
-        //moveDownFast = false;
-       
 
         StartCoroutine("Tick");
-        CreateTetromino();
+        //CreateTetromino();
         
     }
 
@@ -167,6 +170,7 @@ public class Tetris : MonoBehaviour
             if ((int)moveDir.y == -1 && (int)moveDir.x == 0 && isRotate == false)
             {
                 GameManager.Instance.tetris_Num = GameManager.Instance.tetris_Num + 1;          //38
+
                 Debug.Log("GameManager.Instance.tetris_Num " + GameManager.Instance.tetris_Num);
                 AddToBoard(tetrominoNode);
                 if (GameManager.Instance.time1) { return false; }
@@ -268,7 +272,7 @@ public class Tetris : MonoBehaviour
     }
     
     // 테트로미노 생성
-    void CreateTetromino()
+    public void CreateTetromino()
     {
 
         bool isNeedle;
@@ -286,8 +290,9 @@ public class Tetris : MonoBehaviour
         UiManager.instance.NextTTShow();
 
         tetrominoNode.rotation = Quaternion.identity;
-        tetrominoNode.position = new Vector2(0, -halfHeight+ StartHeight);
-        
+        //tetrominoNode.position = new Vector2(0, -halfHeight + StartHeight);
+        tetrominoNode.position = new Vector2(0, (int)(Player.transform.position.y) + StartHeight);
+
         if (needleORNorm < GameManager.Instance.normPer)
         {
             isNeedle = false;

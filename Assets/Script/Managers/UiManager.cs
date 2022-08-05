@@ -56,7 +56,7 @@ public class UiManager : MonoBehaviour
     }
     private void Start()
     {
-        //NextBlock_Dummy = new GameObject[5];
+        Best_Score_Ui_Update();
         Stage = TetrisStage.GetComponent<Tetris>();
         tilePrefab = Resources.Load<GameObject>("Prefab/UItile");
 
@@ -277,6 +277,7 @@ public class UiManager : MonoBehaviour
     public void Best_Score_Ui_Update()
     {
         Best_Score.text = GameManager.Instance.Best_Score.ToString();
+        Debug.Log(GameManager.Instance.Best_Score);
     }
 
 
@@ -287,7 +288,10 @@ public class UiManager : MonoBehaviour
 
     public void Load_Game_Scene()
     {
+        
         SceneManager.LoadScene("GameScene");
+
+
     }
 
     public void Pause_Start()
