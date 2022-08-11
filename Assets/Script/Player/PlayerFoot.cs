@@ -31,7 +31,7 @@ public class PlayerFoot : MonoBehaviour
         if (Physics.Raycast(ray, out hit, RayLenght, LayerMask.GetMask("Block")))
         {
          
-            Debug.Log("OnGround");
+            //Debug.Log("OnGround");
             Player.GetComponent<PlayerController>().isGrounded();
             if(hit.transform.gameObject.tag == "Needle")
             {
@@ -42,7 +42,7 @@ public class PlayerFoot : MonoBehaviour
         }
         else
         {
-            Debug.Log("OFFGround");
+            //Debug.Log("OFFGround");
 
             Player.GetComponent<PlayerController>().isNotGrounded();
         }
@@ -60,9 +60,14 @@ public class PlayerFoot : MonoBehaviour
             case "Lava" :
                 GameManager.Instance.GameOver();
                 break;
+            case "Block":
+                Player.GetComponent<PlayerController>().isGrounded();
+                break;
+
             case "Needle":
                 //GameManager.Instance.GameOver(); // 이건 Tile 의 Trigger에서 처리 
                 break;
+           
             default:
                 //if( GameManager.Instance.time1)
                 //{

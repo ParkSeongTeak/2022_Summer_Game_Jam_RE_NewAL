@@ -12,12 +12,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { Init(); return instance; } }
     InputManager _input = new InputManager();
     public static InputManager InputSys { get { return Instance._input; } }
-
+    SoundManager _sound = new SoundManager();
+    public SoundManager sound { get { return _sound; } }
 
     //Time관련 값들 Time1 -> Player     Time2 -> Tetris
     bool _time1;     //PlayerTime
     bool _time2;     //TetrisTime
-    
     public bool time1       //PlayerTime
     {
         get { return _time1; }
@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
         set { _time2 = value; _time1 = !(value); }
     }
 
+
+    //GameOver 관련
     public bool GameOverBool
     {
         get { return (!(_time2 || _time1 )); }
@@ -37,18 +39,13 @@ public class GameManager : MonoBehaviour
 
     // Tetris 
     int _tetris_Num;
-    int tetrisMaxnum = 5;
+    //int tetrisMaxnum = 5;
     int _normPer = 4;            // n/10 per n0 퍼센트
     public int normPer { get { return _normPer; } set { _normPer = value; }  }
-
-
     int _ladderPer = 5;            // n/10 per n0 퍼센트
     public int ladderPer { get { return _ladderPer; } set { _ladderPer = value; } }
-
     int[] NextTetrisIDX = new int[5];
     int[] NextTetrisNeedle = new int[5];
-
-
     public int tetris_Num { 
         get { return _tetris_Num; } 
         set { 
@@ -63,7 +60,7 @@ public class GameManager : MonoBehaviour
         } 
     }
 
-
+    //Lava관련
     public GameObject Lava;
     Vector3 LavaStartPos;
 
@@ -74,25 +71,32 @@ public class GameManager : MonoBehaviour
 
 
     // 스코어 관련 
-
     int _now_Score = -1;
     public int now_Score { get { return _now_Score; } set { _now_Score = value; } } 
     int _Best_Score = 0;
     public int Best_Score { get { return _Best_Score; } set { _Best_Score = value; } }
 
     string Best_Score_Str = "BBEESSTT__SSCCRREE";
-    bool Clear = false;
-    string Clear_Str = "CCLLEEAARR";
+    //bool Clear = false;
+    //string Clear_Str = "CCLLEEAARR";
 
 
-    //tmp
-    bool start = true;
+    //프롤로그 관련
+    string prologue = "anwlefnkfasdnewa";
+    int _prolInt = 0;
+    public int prolInt { get { return _prolInt; } set { _prolInt = value; } }
+
+    public void prolRead () { PlayerPrefs.SetInt(prologue, 1);}
+
+    
+
 
     private void Awake()
     {
         for (int i = 0; i < 5; i++) { NextTetrisIDX[i] = -1; }
         Best_Score = PlayerPrefs.GetInt(Best_Score_Str, 0);
-        Debug.Log(GameManager.Instance.Best_Score);
+        prolInt = PlayerPrefs.GetInt(prologue, 0);
+        RandArrCreate();
 
     }
 
@@ -102,11 +106,13 @@ public class GameManager : MonoBehaviour
     {
 
         Init();
-       
+        
+
+
         time2 = true;
-        LavaStartPos = new Vector3(0.7f, -750f, 0f);
+        LavaStartPos = new Vector3(0.7f, -760f, 0f);
         _cameraPlayerHeight = 3f; 
-        RandArrCreate();
+        //RandArrCreate();
 
         if (Lava==null)
         {
@@ -119,9 +125,16 @@ public class GameManager : MonoBehaviour
 
         UiManager.instance.ToTime1();
         UiManager.instance.ToTime2();
-        
-        
 
+
+        sound.pitch[(int)Define.Sound.Bgm] = UiManager.instance.BGMSliderValue();
+        sound.pitch[(int)Define.Sound.Effect] = UiManager.instance.SFXSliderValue();
+
+
+        sound.Play("JumprisBgm2",Define.Sound.Bgm);
+
+
+        UiManager.instance.Pause_Start();
     }
 
     public void BestScoreUpdate()
@@ -163,7 +176,7 @@ public class GameManager : MonoBehaviour
 
             //DontDestroyOnLoad(GM);
             instance = GM.GetComponent<GameManager>();
-
+            instance._sound.init();
 
         }
 
@@ -215,9 +228,20 @@ public class GameManager : MonoBehaviour
     {
         tetris_Num = 0;
         time2 = true;
-        Lava.GetComponent<Lava>().StopLavaMove();
-        Tetris.tetris.CreateTetromino();
-
+        if(Lava != null)
+            Lava.GetComponent<Lava>().StopLavaMove();
+        else
+        {
+            Debug.Log("LavaNull");
+        }
+        try
+        {
+            Tetris.tetris.CreateTetromino();
+        }
+        catch
+        {
+            Debug.Log("Tetris.tetris.CreateTetromino();");
+        }
     }
     // Start is called before the first frame update
 
@@ -225,8 +249,8 @@ public class GameManager : MonoBehaviour
     {
         if (NextTetrisIDX ==null ||NextTetrisIDX[0] == -1)
         {
-            if (NextTetrisIDX == null) { Debug.Log("It's NULL"); }
-            else { Debug.Log("It's NextTetris[0].first == -1" + " And " + NextTetrisIDX[0] + NextTetrisIDX[1] + NextTetrisIDX[2] + NextTetrisIDX[3] + NextTetrisIDX[4]); }
+            //if (NextTetrisIDX == null) { Debug.Log("It's NULL"); }
+            //else { Debug.Log("It's NextTetris[0].first == -1" + " And " + NextTetrisIDX[0] + NextTetrisIDX[1] + NextTetrisIDX[2] + NextTetrisIDX[3] + NextTetrisIDX[4]); }
 
             for (int i = 0; i < 5; i++)
             {

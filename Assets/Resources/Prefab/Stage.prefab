@@ -52,8 +52,9 @@ MonoBehaviour:
   boardNode: {fileID: 2725652782802600936}
   tetrominoNode: {fileID: 2725652782868851121}
   gameoverPanel: {fileID: 0}
-  boardWidth: 10
+  Player: {fileID: 0}
   boardHeight: 20
+  StartHeight: 20
   fallCycle: 1
 --- !u!1 &2725652782802600937
 GameObject:

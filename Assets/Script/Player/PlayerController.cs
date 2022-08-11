@@ -28,17 +28,84 @@ public class PlayerController : MonoBehaviour
         RightExitLadder,
     }
 
-
+    //Anim
+    public Animator anim;
     
+    public bool stay { get { return anim.GetBool("IsStay"); } 
+        set { 
+            if (value) {
+                anim.SetBool("IsStay",true);
+                anim.SetBool("IsJumpUp", false);
+                anim.SetBool("IsJumpDown", false);
+                anim.SetBool("IsWalk", false);
+                anim.SetBool("IsDie", false);
+
+            }
+
+        } 
+    }
+    public bool jumpUp
+    {
+        get { return anim.GetBool("IsJumpUp"); }
+        set
+        {
+            if (value)
+            {
+                
+                anim.SetBool("IsStay", false);
+                anim.SetBool("IsJumpUp", true);
+                anim.SetBool("IsJumpDown", false);
+                anim.SetBool("IsWalk", false);
+                anim.SetBool("IsDie", false);
+            }
+        }
+    }
+    public bool jumpDown
+    {
+        get { return anim.GetBool("IsJumpjumpDown"); }
+        set
+        {
+            if (value)
+            {
+                anim.SetBool("IsStay", false);
+                anim.SetBool("IsJumpUp", false);
+                anim.SetBool("IsJumpDown", true);
+                anim.SetBool("IsWalk", false);
+                anim.SetBool("IsDie", false);
+            }
+        }
+    }
+    public bool walk { get { return anim.GetBool("IsWalk"); } set {
+            if (value)
+            {
+                anim.SetBool("IsStay", false);
+                anim.SetBool("IsJumpUp", false);
+                anim.SetBool("IsJumpDown", false);
+                anim.SetBool("IsWalk",true);
+                anim.SetBool("IsDie", false);
+            }
+        }
+    }
+    
+    public bool die { get { return anim.GetBool("IsDie"); } set {
+            if (value)
+            {
+                anim.SetBool("IsStay", false);
+                anim.SetBool("IsJumpUp", false);
+                anim.SetBool("IsJumpDown", false);
+                anim.SetBool("IsWalk", false);
+                anim.SetBool("IsDie", true);
+            }
+        } 
+    }
+
+
+
 
     public State nowState;
     public State beforeState;
 
-    //debug용 public 만든 후 삭제할것
-    //public bool DebugGraund;
-    //public Vector3 DebugDir = new Vector3();
-
-
+    
     CharacterController Player; // 제어할 캐릭터 컨트롤러
     public float Speed;  // 이동속도
     const float JumpPow = 8.0f;
@@ -52,11 +119,15 @@ public class PlayerController : MonoBehaviour
     private bool isPlayerGrounded;  //  최종 점프 버튼 눌림 상태
     private bool isJumpButtonPressing;
 
+    //Sound관련 
+    float walkSoundTime = 0.2f;
+
     // Start is called before the first frame update
     void Start()
     {
         nowState = State.Horizon;
         beforeState = State.Horizon;
+        anim =  transform.GetChild(0).GetComponent<Animator>();
 
         Player = this.gameObject.GetComponent<CharacterController>();
 
@@ -141,12 +212,17 @@ public class PlayerController : MonoBehaviour
                 nowState = State.Horizon;
                 break;
         }
-        
+        if(GameManager.Instance.time2)
+        {
+            stay = true;
+        }
 
         if (GameManager.Instance.time1)
         {
             if (GameManager.Instance.MoveSliderValue() >= 0.7f)
             {
+                walk = true;
+
                 IMG.transform.localEulerAngles = new Vector3(0, 0, 0);
 
                 switch (nowState)
@@ -174,6 +250,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (GameManager.Instance.MoveSliderValue() <= 0.3f)
             {
+                walk = true;
                 IMG.transform.localEulerAngles = new Vector3(0, 180, 0);
                 switch (nowState)
                 {
@@ -196,6 +273,11 @@ public class PlayerController : MonoBehaviour
                         break;
                         
                 }
+            }
+            else
+            {
+                //anim
+                stay = true;
             }
             
         }
@@ -220,7 +302,14 @@ public class PlayerController : MonoBehaviour
             // 캐릭터가 바닥에 붙어 있지 않다면
             else
             {
-                
+                if (HorizonDir.y >= 0)
+                {
+                    jumpUp = true;
+                }
+                else
+                {
+                    jumpDown = true;
+                }
                 // 중력의 영향을 받아 아래쪽으로 하강합니다.           
                 HorizonDir.y -= Gravity * Time.deltaTime;
             }
@@ -245,6 +334,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isPlayerGrounded)
         {
+            GameManager.Instance.sound.Play("jumpEffect");
             StartCoroutine("JumpStart");
             HorizonDir.y = JumpPow;
             isJumpButtonPressing = true;

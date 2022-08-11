@@ -27,11 +27,20 @@ public class Tetris : MonoBehaviour
     private int halfHeight;
     //private int TetrisStartinHeight;
 
-    int[] NextTetrisIDX = new int[5];
-    int[] NextTetrisNeedle = new int[5];
+
+    /// <summary>
+    /// 디버깅중 이후 모든 퍼블릭 해제할것
+    /// 
+    /// </summary>
+    //int[] NextTetrisIDX = new int[5];
+    //int[] NextTetrisNeedle = new int[5];
+    public int[] NextTetrisIDX = new int[5];
+    public int[] NextTetrisNeedle = new int[5];
+    public Sprite[] Sprites;
+
 
     private float nextFallTime;
-    Sprite[] Sprites;
+    //Sprite[] Sprites;
     //bool moveDownFast;
 
     string Path = "Sprite/TetrisBlock/";
@@ -48,9 +57,7 @@ public class Tetris : MonoBehaviour
 
     bool tick = true;
 
-
-    
-    private void Start()
+    private void Awake()
     {
         Debug.Log("RERE");
         tetris = this;
@@ -76,8 +83,37 @@ public class Tetris : MonoBehaviour
 
 
         StartCoroutine("Tick");
+    }
+
+    private void Start()
+    {
+        /*
+        Debug.Log("RERE");
+        tetris = this;
+
+        gameoverPanel.SetActive(false);
+
+        GameManager.Instance.RandArrCreate();
+
+        halfWidth = Mathf.RoundToInt(boardWidth * 0.5f);
+        halfHeight = Mathf.RoundToInt(boardHeight * 0.5f);
+
+        nextFallTime = Time.time + fallCycle;
+
+        CreateBackground();
+
+        for (int i = 0; i < boardHeight; ++i)
+        {
+            var col = new GameObject((boardHeight - i - 1).ToString());
+            col.transform.position = new Vector3(0, halfHeight - i, 0);
+            col.transform.parent = boardNode;
+        }
+
+
+
+        StartCoroutine("Tick");
         //CreateTetromino();
-        
+        */
     }
 
     void Update()
@@ -143,6 +179,7 @@ public class Tetris : MonoBehaviour
 
     public void TetrisDown()
     {
+
         Vector3 moveDir = Vector3.zero;
         moveDir.y -= 1;
         MoveTetromino(moveDir);
@@ -282,7 +319,6 @@ public class Tetris : MonoBehaviour
         int index = NextTetrisIDX[0];
         needleORNorm = NextTetrisNeedle[0];
   
-        //Debug.Log("Tetris Index"  +NextTetrisIDX[0] + NextTetrisIDX[1] + NextTetrisIDX[2] + NextTetrisIDX[3] + NextTetrisIDX[4]);
                 
         GameManager.Instance.PopTetris();
         

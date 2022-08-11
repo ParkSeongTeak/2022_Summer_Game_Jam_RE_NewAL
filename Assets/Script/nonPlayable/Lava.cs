@@ -10,11 +10,12 @@ public class Lava : MonoBehaviour
 
     float uptime;
     float upheight;
+    bool isCoroutine;
     // Start is called before the first frame update
 
     private void Awake()
     {
-
+        isCoroutine = false;
         lava = this.gameObject;
         lavaVec = lava.transform.position;
         uptime = 2f;
@@ -31,14 +32,23 @@ public class Lava : MonoBehaviour
 
     public void StartLavaMove()
     {
-        StartCoroutine("LavaUp");
-        
+        if (!isCoroutine)
+        {
+            StartCoroutine("LavaUp");
+        }
+        isCoroutine = true;
     }
 
 
     public void StopLavaMove()
     {
-        StopCoroutine("LavaUp");
+
+        if (isCoroutine)
+        {
+            StopCoroutine("LavaUp");
+        }
+        isCoroutine = false;
+
     }
     IEnumerator LavaUp()
     {

@@ -7,10 +7,11 @@ using TMPro;
 
 public class UiManager : MonoBehaviour
 {
-    [SerializeField]
-    GameObject GameOverScene;
 
     public static UiManager instance;
+
+    [SerializeField]
+    GameObject GameOverScene;
     [SerializeField]
     GameObject TetrisStage;
     GameObject tilePrefab;
@@ -20,7 +21,25 @@ public class UiManager : MonoBehaviour
     GameObject[] NextBlock_Pnt = new GameObject[5];
     GameObject[] NextBlock_Dummy;
 
-    //Sprite[] NextBlockIMG;
+    [SerializeField]
+    GameObject Option;
+
+
+    //Sound관련 슬라이더
+    [SerializeField]
+    Slider SFXSlider;
+    [SerializeField]
+    Slider BGMSlider;
+    string SFXSliderstr = "askldnfaekdsfafasdfadwsf";
+    string BGMSliderstr = "aklf;njenf;kjblaef";
+    float SFXSliderbefore;
+    float BGMSliderbefore;
+
+
+    [SerializeField]
+    GameObject Prologue;
+    [SerializeField]
+    GameObject StartLogo;
 
 
     [SerializeField]
@@ -52,14 +71,20 @@ public class UiManager : MonoBehaviour
     {
         instance = this;
         tilePrefab = Resources.Load<GameObject>("Prefab/UItile");
-
+        SFXSlider.value = PlayerPrefs.GetFloat(SFXSliderstr, 1f);
+        SFXSliderbefore = SFXSlider.value;
+        BGMSlider.value = PlayerPrefs.GetFloat(BGMSliderstr, 1f);
+        BGMSliderbefore = BGMSlider.value;
     }
     private void Start()
     {
         Best_Score_Ui_Update();
         Stage = TetrisStage.GetComponent<Tetris>();
         tilePrefab = Resources.Load<GameObject>("Prefab/UItile");
-
+        if(GameManager.Instance.prolInt == 0)
+        {
+            Prologue_Show();
+        }
     }
 
     public void ToTime1()           //player
@@ -85,7 +110,9 @@ public class UiManager : MonoBehaviour
 
     public void TetrisDown()
     {
+        GameManager.Instance.sound.Play("BlockDown");
         Stage.TetrisDown();
+        
     }
 
 
@@ -302,11 +329,60 @@ public class UiManager : MonoBehaviour
 
     public void Pause_End()
     {
-        Time.timeScale = 1.0f;
-        GameManager.Instance.Lava.GetComponent<Lava>().StartLavaMove();
-
+        if (StartLogo.activeSelf != true)
+        {
+            Time.timeScale = 1.0f;
+            GameManager.Instance.Lava.GetComponent<Lava>().StartLavaMove();
+        }
     }
 
+    void Prologue_Show()
+    {
+        Prologue.SetActive(true);
+       // Pause_Start();
+    }
+    public void Prologue_Button()
+    {
+        Prologue.SetActive(false);
+        GameManager.Instance.prolRead();
+        //Pause_End();
+    }
+
+    public float SFXSliderValue()
+    {
+        return SFXSlider.value;
+    }
+    public float BGMSliderValue()
+    {
+        return BGMSlider.value;
+
+    }
+    private void Update()
+    {
+        if(Option.activeSelf == true)
+        {
+            Debug.Log("Option");
+            if(SFXSliderbefore != SFXSlider.value)
+            {
+                Debug.Log("SFX.volume");
+
+                GameManager.Instance.sound.pitch[(int)Define.Sound.Effect] = SFXSlider.value;
+                SFXSliderbefore = SFXSlider.value;
+                GameManager.Instance.sound._audioSources[(int)Define.Sound.Effect].volume = SFXSlider.value;
+                PlayerPrefs.SetFloat(SFXSliderstr, SFXSlider.value);
+
+            }
+            if (BGMSliderbefore != BGMSlider.value)
+            {
+                GameManager.Instance.sound.pitch[(int)Define.Sound.Bgm] = BGMSlider.value;
+                BGMSliderbefore = BGMSlider.value;
+                GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm].volume = BGMSlider.value;
+                PlayerPrefs.SetFloat(BGMSliderstr, BGMSlider.value);
+
+            }
+        }
+
+    }
 }
 
 
