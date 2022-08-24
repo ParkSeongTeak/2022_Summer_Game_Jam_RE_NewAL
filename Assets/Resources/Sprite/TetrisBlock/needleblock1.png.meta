@@ -142,8 +142,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90bb3bb0176e3344f853011f3b90d685
-      internalID: 732214220
+      spriteID: c05091d2901e72c40b6c86b73d924b6a
+      internalID: 1440345470
       vertices: []
       indices: 
       edges: []
@@ -163,8 +163,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2324bc418e1415c4794cbca6587b53e6
-      internalID: 937886092
+      spriteID: 1c2687b533e669a47ad6b9a9f574d407
+      internalID: -872916718
       vertices: []
       indices: 
       edges: []
@@ -184,8 +184,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af8a1413b6ad4474390bb58354f6d6c9
-      internalID: -1268206501
+      spriteID: 8872bbceac025a045bed365108b48ea6
+      internalID: 551638467
       vertices: []
       indices: 
       edges: []
@@ -205,8 +205,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06dfe064f13e066439aa1b61584c3541
-      internalID: -893776155
+      spriteID: 09ab504fe85aa0449b2632b81889b666
+      internalID: 777144818
       vertices: []
       indices: 
       edges: []
@@ -226,8 +226,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4613c538da863947ac6cb6340908ac4
-      internalID: -1279095274
+      spriteID: 8fb8b2a001aef39409416607a9829f13
+      internalID: -1745363582
       vertices: []
       indices: 
       edges: []
@@ -247,8 +247,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 30dea489135cd2c4e9eaec6d45226679
-      internalID: 1110180948
+      spriteID: f4157018de6d8d24f9cc6cb7f55c01d7
+      internalID: 1464945066
       vertices: []
       indices: 
       edges: []
@@ -264,12 +264,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      needleblock1_4: -1279095274
-      needleblock1_1: 937886092
-      needleblock1_5: 1110180948
-      needleblock1_3: -893776155
-      needleblock1_2: -1268206501
-      needleblock1_0: 732214220
+      needleblock1_4: -1745363582
+      needleblock1_1: -872916718
+      needleblock1_5: 1464945066
+      needleblock1_3: 777144818
+      needleblock1_2: 551638467
+      needleblock1_0: 1440345470
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

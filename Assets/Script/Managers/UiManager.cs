@@ -15,14 +15,14 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     GameObject TetrisStage;
     GameObject tilePrefab;
-    Tetris Stage;
-
     [SerializeField]
     GameObject[] NextBlock_Pnt = new GameObject[5];
     GameObject[] NextBlock_Dummy;
-
     [SerializeField]
     GameObject Option;
+    
+    Tetris Stage;
+
 
 
     //Sound관련 슬라이더
@@ -36,8 +36,6 @@ public class UiManager : MonoBehaviour
     float BGMSliderbefore;
 
 
-    [SerializeField]
-    GameObject Prologue;
     [SerializeField]
     GameObject StartLogo;
 
@@ -61,10 +59,28 @@ public class UiManager : MonoBehaviour
     //포인트
     [SerializeField]
     TextMeshProUGUI now_Score;
-
-
+    [SerializeField]
+    TextMeshProUGUI End_Score;
     [SerializeField]
     TextMeshProUGUI Best_Score;
+
+    //프롤로그
+    [SerializeField]
+    GameObject Prologue;
+    [SerializeField]
+    GameObject ProlChar;
+    bool Wait = false;
+    int PrologueIdx =1;
+    Vector3 First = new Vector3(355, 237, 0);
+    float time1 = 1f;
+    Vector3 Second = new Vector3(871, 323, 0);
+    float time2 = 1f;
+    Vector3 Third = new Vector3(714, 466, 0);
+    float time3 = 1f;
+    Vector3 Fourth = new Vector3(1000, 552, 0);
+    float AFrame = 0.02f;
+    [SerializeField]
+    GameObject _tutorial;
 
 
     private void Awake()
@@ -75,9 +91,12 @@ public class UiManager : MonoBehaviour
         SFXSliderbefore = SFXSlider.value;
         BGMSlider.value = PlayerPrefs.GetFloat(BGMSliderstr, 1f);
         BGMSliderbefore = BGMSlider.value;
+
+
     }
     private void Start()
     {
+        First = ProlChar.transform.position;
         Best_Score_Ui_Update();
         Stage = TetrisStage.GetComponent<Tetris>();
         tilePrefab = Resources.Load<GameObject>("Prefab/UItile");
@@ -102,9 +121,13 @@ public class UiManager : MonoBehaviour
         TetrisTimeUI.SetActive(true);
 
     }
-
+    public void ButtonSound()
+    {
+        GameManager.Instance.sound.Play("BlockDown");
+    }
     public void TetrisRotate()
     {
+        
         Stage.TetrisRotate();
     }
 
@@ -182,11 +205,11 @@ public class UiManager : MonoBehaviour
              {
                  // ㅁ. 
                  case 0:
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 1.0f), Sprites, 0, isNeedle);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(1f, 1.0f), Sprites, 1, isNeedle);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 0.0f), Sprites, 3, isNeedle, isladder);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(1f, 0.0f), Sprites, 4, isNeedle, isladder);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(2f, 0.0f), Sprites, 5, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f - 1f , 1.0f), Sprites, 0, isNeedle);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(1f - 1f, 1.0f), Sprites, 1, isNeedle);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f - 1f, 0.0f), Sprites, 3, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(1f - 1f, 0.0f), Sprites, 4, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(2f - 1f, 0.0f), Sprites, 5, isNeedle, isladder);
                      break;
 
                  // Z 
@@ -216,10 +239,10 @@ public class UiManager : MonoBehaviour
 
                  // S : 녹색
                  case 4:
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 0f), Sprites, 1, isNeedle);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(1f, 0f), Sprites, 2, isNeedle);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f, -1f), Sprites, 3, isNeedle, isladder);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, -1f), Sprites, 4, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 1f), Sprites, 1, isNeedle);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(1f, 1f), Sprites, 2, isNeedle);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f, 0f), Sprites, 3, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 0f), Sprites, 4, isNeedle, isladder);
                      break;
 
                  // L : 자주색
@@ -232,24 +255,24 @@ public class UiManager : MonoBehaviour
 
                  // ㅡ : 빨간색
                  case 6:
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f, 0f), Sprites, 0, isNeedle, isladder);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 0f), Sprites, 1, isNeedle, isladder);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(1f, 0f), Sprites, 2, isNeedle, isladder);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(2f, 0f), Sprites, 3, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f - 0.5f, 0f), Sprites, 0, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f - 0.5f, 0f), Sprites, 1, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(1f - 0.5f, 0f), Sprites, 2, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(2f - 0.5f, 0f), Sprites, 3, isNeedle, isladder);
                      break;
 
                  //ㅁ : 
                  case 7:
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f, 1f), Sprites, 0, isNeedle);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 1f), Sprites, 1, isNeedle);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f, 0f), Sprites, 2, isNeedle, isladder);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 0f), Sprites, 3, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f + 0.5f, 1f), Sprites, 0, isNeedle);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f + 0.5f, 1f), Sprites, 1, isNeedle);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f + 0.5f, 0f), Sprites, 2, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f + 0.5f, 0f), Sprites, 3, isNeedle, isladder);
                      break;
 
                  case 8:
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 1f), Sprites, 1, isNeedle);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f, 0f), Sprites, 2, isNeedle, isladder);
-                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 0f), Sprites, 3, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f + 0.5f, 1f), Sprites, 1, isNeedle);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(-1f + 0.5f, 0f), Sprites, 2, isNeedle, isladder);
+                     CreateUiTile(NextBlock_Dummy[index], new Vector2(0f + 0.5f, 0f), Sprites, 3, isNeedle, isladder);
                      break;
                  case 9:
                      CreateUiTile(NextBlock_Dummy[index], new Vector2(0f, 1f), Sprites, 1, isNeedle);
@@ -335,12 +358,67 @@ public class UiManager : MonoBehaviour
             GameManager.Instance.Lava.GetComponent<Lava>().StartLavaMove();
         }
     }
-
+    
     void Prologue_Show()
     {
         Prologue.SetActive(true);
-       // Pause_Start();
+        GameManager.Instance.SetPrologue(1);
     }
+    public void PrologueReset()
+    {
+        GameManager.Instance.SetPrologue(0);
+
+    }
+
+    void Prologue_Time1()
+    {
+        if (!Wait)
+        {
+            StartCoroutine("ProlMove1");
+            PrologueIdx++;
+        }
+        // Pause_Start();
+    }
+    void Prologue_Time2()
+    {
+        if (!Wait)
+        {
+            StartCoroutine("ProlMove2");
+            PrologueIdx++;
+        }
+        // Pause_Start();
+    }
+    void Prologue_Time3()
+    {
+        if (!Wait)
+        {
+            StartCoroutine("ProlMove3");        // 재생 후 접고 튜토 킴;
+            PrologueIdx = 1;
+            
+        }
+        // Pause_Start();
+    }
+
+    public void Touch_Prologue()
+    {
+        switch (PrologueIdx)
+        {
+            case 1:
+                Prologue_Time1();
+                break;
+            case 2:
+                Prologue_Time2();
+                break;
+            case 3:
+                Prologue_Time3();
+
+                break;
+        }
+
+
+    }
+
+
     public void Prologue_Button()
     {
         Prologue.SetActive(false);
@@ -361,7 +439,7 @@ public class UiManager : MonoBehaviour
     {
         if(Option.activeSelf == true)
         {
-            Debug.Log("Option");
+            //Debug.Log("Option");
             if(SFXSliderbefore != SFXSlider.value)
             {
                 Debug.Log("SFX.volume");
@@ -381,6 +459,111 @@ public class UiManager : MonoBehaviour
 
             }
         }
+
+    }
+    bool SameVec(Vector3 One, Vector3 Another)
+    {
+        float Bound = 0.0001f;
+        if((One.x < Another.x + Bound && One.x > Another.x - Bound) && (One.y < Another.y + Bound && One.y > Another.y - Bound))
+        {
+            return true;
+        }
+        return false;
+    }
+    /*
+    IEnumerator ProlMove()
+    {
+        Wait = true;
+        Vector3 AMove;
+        AMove = Second - ProlChar.transform.position;
+        AMove = AMove / (time1 / AFrame);
+        for (int i = 0; i< (time1 / AFrame);i++) {
+            yield return new WaitForSecondsRealtime(AFrame);
+            ProlChar.transform.position += AMove;
+        }
+        AMove = Third - ProlChar.transform.position;
+        AMove = AMove / (time2 / AFrame);
+
+        for (int i = 0; i < (time2 / AFrame); i++)
+        {
+            yield return new WaitForSecondsRealtime(AFrame);
+            ProlChar.transform.position += AMove;
+        }
+        AMove = Fourth - ProlChar.transform.position;
+        AMove = AMove / (time3 / AFrame);
+
+        for (int i = 0; i < (time3 / AFrame); i++)
+        {
+            yield return new WaitForSecondsRealtime(AFrame);
+            ProlChar.transform.position += AMove;
+        }
+
+        Wait = false;
+
+
+    }
+    */
+    IEnumerator ProlMove1()
+    {
+        Wait = true;
+        Vector3 AMove;
+        AMove = Second - ProlChar.transform.position;
+        AMove = AMove / (time1 / AFrame);
+        for (int i = 0; i < (time1 / AFrame); i++)
+        {
+            yield return new WaitForSecondsRealtime(AFrame);
+            ProlChar.transform.position += AMove;
+        }
+        
+        Wait = false;
+
+
+    }
+    IEnumerator ProlMove2()
+    {
+        Wait = true;
+        Vector3 AMove;
+        ProlChar.transform.localEulerAngles= new Vector3(0, 180, 0); 
+        AMove = Third - ProlChar.transform.position;
+        AMove = AMove / (time2 / AFrame);
+
+        for (int i = 0; i < (time2 / AFrame); i++)
+        {
+            yield return new WaitForSecondsRealtime(AFrame);
+            ProlChar.transform.position += AMove;
+        }
+       
+        Wait = false;
+
+
+    }
+
+    public void QuitGame() {
+        GameManager.Instance.GameOver();
+        Application.Quit();
+    }
+
+
+
+    IEnumerator ProlMove3()
+    {
+        Wait = true;
+        Vector3 AMove;
+        ProlChar.transform.localEulerAngles = new Vector3(0, 0, 0);
+
+        AMove = Fourth - ProlChar.transform.position;
+        AMove = AMove / (time3 / AFrame);
+
+        for (int i = 0; i < (time3 / AFrame); i++)
+        {
+            yield return new WaitForSecondsRealtime(AFrame);
+            ProlChar.transform.position += AMove;
+        }
+
+        Wait = false;
+        _tutorial.SetActive(true);
+        Prologue.SetActive(false);
+
 
     }
 }

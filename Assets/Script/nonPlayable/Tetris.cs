@@ -201,6 +201,8 @@ public class Tetris : MonoBehaviour
 
         if (!CanMoveTo(tetrominoNode))
         {
+            GameManager.Instance.sound.Play("BlockDown");
+
             tetrominoNode.transform.position = oldPos;
             tetrominoNode.transform.rotation = oldRot;
 
@@ -290,7 +292,7 @@ public class Tetris : MonoBehaviour
     void CreateBackground()
     {
         Color color = Color.gray;
-        Sprites = Resources.LoadAll<Sprite>(Path + Norm + 0.ToString());
+        Sprites = Resources.LoadAll<Sprite>("Sprite/Empty");
 
       
         // ÁÂ¿ì Å×µÎ¸®

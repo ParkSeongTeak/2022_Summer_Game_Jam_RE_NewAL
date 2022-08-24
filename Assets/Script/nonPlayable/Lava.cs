@@ -55,12 +55,13 @@ public class Lava : MonoBehaviour
 
         while (true)
         {
-            if (GameManager.Instance.time1) {
+            if (GameManager.Instance.time1 && Time.deltaTime != 0) {
                 lava.transform.position = lavaVec;
                 lavaVec.y += upheight;
                 
             }
             yield return new WaitForSeconds(uptime);
+            //Debug.Log("LavaUp");
 
         }
     }

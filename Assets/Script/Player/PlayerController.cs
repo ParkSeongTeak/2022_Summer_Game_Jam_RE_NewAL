@@ -88,15 +88,17 @@ public class PlayerController : MonoBehaviour
     }
     
     public bool die { get { return anim.GetBool("IsDie"); } set {
-            if (value)
-            {
+           if (value)
+           {
                 anim.SetBool("IsStay", false);
                 anim.SetBool("IsJumpUp", false);
                 anim.SetBool("IsJumpDown", false);
                 anim.SetBool("IsWalk", false);
                 anim.SetBool("IsDie", true);
-            }
-        } 
+           }
+            Debug.Log(gameObject.name + die);
+
+        }
     }
 
 

@@ -43,6 +43,7 @@ public class SoundManager
                 if (audioClip == null)
                 {
                     Debug.Log("No audioClip");
+                    return;
                 }
 
                 audioSource = _audioSources[(int)Define.Sound.Effect];

@@ -66,7 +66,8 @@ public class Tile : MonoBehaviour
         if (this.transform.tag == "Needle"  && collision.gameObject.layer == 3)
         {
             Debug.Log("Needle");
-            GameManager.Instance.GameOver();
+
+            GameManager.Instance.GameOver("BlockHead");
         }
         
         else if (collision.gameObject.layer == 3 && GameManager.Instance.time1 && this.gameObject.transform.parent.name != "BG")
@@ -74,7 +75,9 @@ public class Tile : MonoBehaviour
             if( GameManager.Instance.now_Score < int.Parse(this.gameObject.transform.parent.name))
             {
                 GameManager.Instance.now_Score = int.Parse(this.gameObject.transform.parent.name);
+
                 UiManager.instance.Now_Score_Ui_Update();
+
 
                 Debug.Log("this.gameObject.transform.parent: " + int.Parse(this.gameObject.transform.parent.name) +" "+ collision.name+ " this.gameObject: "+ this.gameObject.name);
             } 

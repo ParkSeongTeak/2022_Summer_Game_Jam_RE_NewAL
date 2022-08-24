@@ -15,6 +15,11 @@ public class GameManager : MonoBehaviour
     SoundManager _sound = new SoundManager();
     public SoundManager sound { get { return _sound; } }
 
+
+    //플레이어 -Find()함수를 이용하여 작성
+
+    public static PlayerController playerController = new PlayerController();        
+
     //Time관련 값들 Time1 -> Player     Time2 -> Tetris
     bool _time1;     //PlayerTime
     bool _time2;     //TetrisTime
@@ -77,9 +82,7 @@ public class GameManager : MonoBehaviour
     public int Best_Score { get { return _Best_Score; } set { _Best_Score = value; } }
 
     string Best_Score_Str = "BBEESSTT__SSCCRREE";
-    //bool Clear = false;
-    //string Clear_Str = "CCLLEEAARR";
-
+   
 
     //프롤로그 관련
     string prologue = "anwlefnkfasdnewa";
@@ -88,7 +91,11 @@ public class GameManager : MonoBehaviour
 
     public void prolRead () { PlayerPrefs.SetInt(prologue, 1);}
 
-    
+    //슬라이더 관련
+    float val =0.0f;
+
+    //Sound 관련
+    int SliderSound = 0;    //   -1 이면 왼쪽 0이면 중앙 +1 이면 오른쪽
 
 
     private void Awake()
@@ -99,7 +106,10 @@ public class GameManager : MonoBehaviour
         RandArrCreate();
 
     }
-
+    public void SetPrologue(int i)
+    {
+        PlayerPrefs.SetInt(prologue, i);
+    }
 
 
     void Start()
@@ -132,7 +142,6 @@ public class GameManager : MonoBehaviour
 
 
         sound.Play("JumprisBgm2",Define.Sound.Bgm);
-
 
         UiManager.instance.Pause_Start();
     }
@@ -177,6 +186,8 @@ public class GameManager : MonoBehaviour
             //DontDestroyOnLoad(GM);
             instance = GM.GetComponent<GameManager>();
             instance._sound.init();
+            playerController = GameObject.Find("Player").GetComponent<PlayerController>() ;
+
 
         }
 
@@ -186,7 +197,37 @@ public class GameManager : MonoBehaviour
 
     public float MoveSliderValue()
     {
-        return MoveSlider.Instance.GetValue();
+        val = MoveSlider.Instance.GetValue();
+        if (val >= 0.7f)
+        {
+            if (SliderSound != 1)
+            {
+                GameManager.Instance.sound.Play("Joystick");
+                SliderSound = 1;
+            }
+
+        }
+
+        else if (val <= 0.3f)
+        {
+            if (SliderSound != -1)
+            {
+                GameManager.Instance.sound.Play("Joystick");
+                SliderSound = -1;
+            }
+
+        }
+        else
+        {
+            if (SliderSound != 0)
+            {
+                //GameManager.Instance.sound.Play("Joystick");
+
+                SliderSound = 0;
+
+            }
+        }
+        return val;
     }
 
     public void ToTime1()   //PlayerTime
@@ -263,18 +304,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOver()
+    public void GameOver(string Sound = "")
     {
         GameOverBool = true;
-        UiManager.instance.GameOverIMG();
-        BestScoreUpdate();
+        playerController.die = true;
+        GameManager.Instance.sound.Play(Sound);
 
+        StartCoroutine("GameOver_Delay");
 
     }
     public void ReStart()
     {
         Destroy(this);
         
+    }
+
+    IEnumerator GameOver_Delay()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        UiManager.instance.GameOverIMG();
+        BestScoreUpdate();
     }
 
 }

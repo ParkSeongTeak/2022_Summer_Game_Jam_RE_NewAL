@@ -7,6 +7,8 @@ public class SetActive : MonoBehaviour
     [SerializeField]
     GameObject Obj;
 
+
+    
     public void ActiveTrue()
     {
         Obj.SetActive(true);
@@ -15,5 +17,8 @@ public class SetActive : MonoBehaviour
     {
         Obj.SetActive(false);
     }
+    
+
+
 
 }

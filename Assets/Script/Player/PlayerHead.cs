@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class PlayerHead : MonoBehaviour
 {
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Head");
 
-        if (collision.transform.gameObject.layer == 6  && GameManager.Instance.time2)
+        if (collision.transform.gameObject.layer == 6  && GameManager.Instance.time2)       //¸Ó¸®¿¡ Bloack GameOver
         {
             Debug.Log("Die");
-            GameManager.Instance.GameOver();
+
+            GameManager.Instance.GameOver("BlockHead");
 
         }
     }
