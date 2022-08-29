@@ -72,9 +72,9 @@ public class Tile : MonoBehaviour
         
         else if (collision.gameObject.layer == 3 && GameManager.Instance.time1 && this.gameObject.transform.parent.name != "BG")
         {
-            if( GameManager.Instance.now_Score < int.Parse(this.gameObject.transform.parent.name))
+            if( GameManager.Instance.now_Score < int.Parse(this.gameObject.transform.parent.name) + 1)
             {
-                GameManager.Instance.now_Score = int.Parse(this.gameObject.transform.parent.name);
+                GameManager.Instance.now_Score = int.Parse(this.gameObject.transform.parent.name) + 1;
 
                 UiManager.instance.Now_Score_Ui_Update();
 

@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class SoundEffect : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    string Sound;
+    // Start is called before the first frame update
+    public void Sound_One_Shot()
     {
-        
+        GameManager.Instance.sound.Play(Sound);
     }
 }

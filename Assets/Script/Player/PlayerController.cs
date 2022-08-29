@@ -116,9 +116,9 @@ public class PlayerController : MonoBehaviour
     private float Gravity; // 중력   
     private Vector3 HorizonDir; // 캐릭터의 가로방향 움직이는 방향.
     private Vector3 VerticalDir; // 캐릭터의 가로방향 움직이는 방향.
-
-
-    private bool isPlayerGrounded;  //  최종 점프 버튼 눌림 상태
+    [SerializeField]
+    bool _isPlayerGrounded = true;
+    private bool isPlayerGrounded { get { return _isPlayerGrounded; } set { _isPlayerGrounded = value; } }  //  최종 점프 버튼 눌림 상태
     private bool isJumpButtonPressing;
 
     //Sound관련 
@@ -304,11 +304,11 @@ public class PlayerController : MonoBehaviour
             // 캐릭터가 바닥에 붙어 있지 않다면
             else
             {
-                if (HorizonDir.y >= 0)
+                if ( (HorizonDir.y > 0 ))
                 {
                     jumpUp = true;
                 }
-                else
+                else if(HorizonDir.y < 0)
                 {
                     jumpDown = true;
                 }

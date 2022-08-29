@@ -60,9 +60,16 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI now_Score;
     [SerializeField]
-    TextMeshProUGUI End_Score;
-    [SerializeField]
     TextMeshProUGUI Best_Score;
+    [SerializeField]
+    TextMeshProUGUI End_Now_Score;
+    [SerializeField]
+    TextMeshProUGUI End_Best_Score;
+    [SerializeField]
+    GameObject Best_Score_IMG;
+
+
+
 
     //프롤로그
     [SerializeField]
@@ -323,11 +330,17 @@ public class UiManager : MonoBehaviour
     public void Now_Score_Ui_Update()
     {
         now_Score.text = GameManager.Instance.now_Score.ToString();
+        End_Now_Score.text = GameManager.Instance.now_Score.ToString();
+
     }
     public void Best_Score_Ui_Update()
     {
+        PlayerPrefs.SetInt("BBEESSTT__SSCCRREE", 0);
+
         Best_Score.text = GameManager.Instance.Best_Score.ToString();
-        Debug.Log(GameManager.Instance.Best_Score);
+        End_Best_Score.text = GameManager.Instance.Best_Score.ToString();
+
+        //Debug.Log(GameManager.Instance.Best_Score);
     }
 
 
@@ -366,6 +379,7 @@ public class UiManager : MonoBehaviour
     }
     public void PrologueReset()
     {
+
         GameManager.Instance.SetPrologue(0);
 
     }
@@ -470,39 +484,7 @@ public class UiManager : MonoBehaviour
         }
         return false;
     }
-    /*
-    IEnumerator ProlMove()
-    {
-        Wait = true;
-        Vector3 AMove;
-        AMove = Second - ProlChar.transform.position;
-        AMove = AMove / (time1 / AFrame);
-        for (int i = 0; i< (time1 / AFrame);i++) {
-            yield return new WaitForSecondsRealtime(AFrame);
-            ProlChar.transform.position += AMove;
-        }
-        AMove = Third - ProlChar.transform.position;
-        AMove = AMove / (time2 / AFrame);
-
-        for (int i = 0; i < (time2 / AFrame); i++)
-        {
-            yield return new WaitForSecondsRealtime(AFrame);
-            ProlChar.transform.position += AMove;
-        }
-        AMove = Fourth - ProlChar.transform.position;
-        AMove = AMove / (time3 / AFrame);
-
-        for (int i = 0; i < (time3 / AFrame); i++)
-        {
-            yield return new WaitForSecondsRealtime(AFrame);
-            ProlChar.transform.position += AMove;
-        }
-
-        Wait = false;
-
-
-    }
-    */
+    
     IEnumerator ProlMove1()
     {
         Wait = true;
@@ -565,6 +547,11 @@ public class UiManager : MonoBehaviour
         Prologue.SetActive(false);
 
 
+    }
+
+    public void Best_Score_Img()
+    {
+        Best_Score_IMG.SetActive(true);
     }
 }
 

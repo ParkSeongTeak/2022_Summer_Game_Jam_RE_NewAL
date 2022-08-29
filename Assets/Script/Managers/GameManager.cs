@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
 
 
     //플레이어 -Find()함수를 이용하여 작성
-
     public static PlayerController playerController = new PlayerController();        
 
     //Time관련 값들 Time1 -> Player     Time2 -> Tetris
@@ -41,6 +40,10 @@ public class GameManager : MonoBehaviour
         get { return (!(_time2 || _time1 )); }
         set { if (value) { _time2 = false; _time1 = false; } }
     }
+    public bool BestScore = false;
+
+
+
 
     // Tetris 
     int _tetris_Num;
@@ -76,7 +79,7 @@ public class GameManager : MonoBehaviour
 
 
     // 스코어 관련 
-    int _now_Score = -1;
+    int _now_Score = 0;
     public int now_Score { get { return _now_Score; } set { _now_Score = value; } } 
     int _Best_Score = 0;
     public int Best_Score { get { return _Best_Score; } set { _Best_Score = value; } }
@@ -151,7 +154,7 @@ public class GameManager : MonoBehaviour
         if(now_Score > Best_Score)
         {
             PlayerPrefs.SetInt(Best_Score_Str, now_Score);
-
+            GameManager.instance.BestScore = true;
             Debug.Log(GameManager.Instance.Best_Score);
 
         }
@@ -309,6 +312,9 @@ public class GameManager : MonoBehaviour
         GameOverBool = true;
         playerController.die = true;
         GameManager.Instance.sound.Play(Sound);
+        UiManager.instance.Now_Score_Ui_Update();
+        BestScoreUpdate();
+        UiManager.instance.Best_Score_Ui_Update();
 
         StartCoroutine("GameOver_Delay");
 
@@ -322,8 +328,20 @@ public class GameManager : MonoBehaviour
     IEnumerator GameOver_Delay()
     {
         yield return new WaitForSecondsRealtime(1f);
+
+        if (BestScore)
+        {
+            GameManager.Instance.sound.Play("NewRecord2");
+            UiManager.instance.Best_Score_Img();
+
+        }
+        else
+        {
+            GameManager.Instance.sound.Play("GameOver2");
+        }
+
         UiManager.instance.GameOverIMG();
-        BestScoreUpdate();
+        
     }
 
 }

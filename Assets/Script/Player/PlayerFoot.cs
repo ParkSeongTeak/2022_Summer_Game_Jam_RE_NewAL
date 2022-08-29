@@ -9,7 +9,7 @@ public class PlayerFoot : MonoBehaviour
     Vector3 _destPos;
 
 
-    bool Ground = true;
+    public bool Ground = true;
     float RayLenght = 0.25f; 
 
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class PlayerFoot : MonoBehaviour
     {
         Player = transform.parent.gameObject;
     }
-
+    /*
     // Update is called once per frame
     void Update()
     {
@@ -46,9 +46,9 @@ public class PlayerFoot : MonoBehaviour
         }
         
     }
-
+    */
  
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
 
         string tag = collision.transform.tag;
@@ -82,7 +82,7 @@ public class PlayerFoot : MonoBehaviour
         {
             
             case "Block":
-                Player.GetComponent<PlayerController>().isGrounded();
+                Player.GetComponent<PlayerController>().isNotGrounded();
                 Ground = false;
 
                 break;
