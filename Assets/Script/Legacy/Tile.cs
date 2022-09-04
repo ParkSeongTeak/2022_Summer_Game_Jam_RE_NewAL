@@ -66,7 +66,6 @@ public class Tile : MonoBehaviour
         if (this.transform.tag == "Needle"  && collision.gameObject.layer == 3)
         {
             Debug.Log("Needle");
-
             GameManager.Instance.GameOver("BlockHead");
         }
         

@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     SoundManager _sound = new SoundManager();
     public SoundManager sound { get { return _sound; } }
 
-
+    
     //플레이어 -Find()함수를 이용하여 작성
     public static PlayerController playerController = new PlayerController();        
 
@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
 
     // Tetris 
     int _tetris_Num;
-    //int tetrisMaxnum = 5;
     int _normPer = 4;            // n/10 per n0 퍼센트
     public int normPer { get { return _normPer; } set { _normPer = value; }  }
     int _ladderPer = 5;            // n/10 per n0 퍼센트
@@ -155,8 +154,7 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt(Best_Score_Str, now_Score);
             GameManager.instance.BestScore = true;
-            Debug.Log(GameManager.Instance.Best_Score);
-
+            Best_Score = now_Score;
         }
     }
 

@@ -33,8 +33,8 @@ public class CameraMove : MonoBehaviour
     void Update()
     {
         CameraPos.y = Player.transform.position.y + GameManager.Instance.CameraPlayerHeight;
-        if (CameraPos.y < -741.79f) {
-            CameraPos.y = -741.79f;
+        if (CameraPos.y < -741.849f) {
+            CameraPos.y = -741.849f;
             this.gameObject.transform.position = CameraPos;
         }
         else

@@ -78,13 +78,13 @@ public class UiManager : MonoBehaviour
     GameObject ProlChar;
     bool Wait = false;
     int PrologueIdx =1;
-    Vector3 First = new Vector3(355, 237, 0);
+    Vector3 First = new Vector3();
     float time1 = 1f;
-    Vector3 Second = new Vector3(871, 323, 0);
+    Vector3 Second = new Vector3();
     float time2 = 1f;
-    Vector3 Third = new Vector3(714, 466, 0);
+    Vector3 Third = new Vector3();
     float time3 = 1f;
-    Vector3 Fourth = new Vector3(1000, 552, 0);
+    Vector3 Fourth = new Vector3();
     float AFrame = 0.02f;
     [SerializeField]
     GameObject _tutorial;
@@ -98,6 +98,10 @@ public class UiManager : MonoBehaviour
         SFXSliderbefore = SFXSlider.value;
         BGMSlider.value = PlayerPrefs.GetFloat(BGMSliderstr, 1f);
         BGMSliderbefore = BGMSlider.value;
+        First = ProlChar.transform.position;
+        Second = ProlChar.transform.position + new Vector3(516, 86, 0);
+        Third = ProlChar.transform.position + new Vector3(359, 229, 0);
+        Fourth = ProlChar.transform.position + new Vector3(645, 315, 0);
 
 
     }
@@ -335,8 +339,7 @@ public class UiManager : MonoBehaviour
     }
     public void Best_Score_Ui_Update()
     {
-        PlayerPrefs.SetInt("BBEESSTT__SSCCRREE", 0);
-
+        
         Best_Score.text = GameManager.Instance.Best_Score.ToString();
         End_Best_Score.text = GameManager.Instance.Best_Score.ToString();
 
@@ -379,7 +382,7 @@ public class UiManager : MonoBehaviour
     }
     public void PrologueReset()
     {
-
+        PlayerPrefs.SetInt("BBEESSTT__SSCCRREE", 0);
         GameManager.Instance.SetPrologue(0);
 
     }

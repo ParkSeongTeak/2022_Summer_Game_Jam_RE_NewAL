@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 HorizonDir; // 캐릭터의 가로방향 움직이는 방향.
     private Vector3 VerticalDir; // 캐릭터의 가로방향 움직이는 방향.
     [SerializeField]
-    bool _isPlayerGrounded = true;
+    bool _isPlayerGrounded = false;
     private bool isPlayerGrounded { get { return _isPlayerGrounded; } set { _isPlayerGrounded = value; } }  //  최종 점프 버튼 눌림 상태
     private bool isJumpButtonPressing;
 
