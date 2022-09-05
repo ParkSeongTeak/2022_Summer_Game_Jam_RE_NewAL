@@ -61,9 +61,5 @@ public class PlayerHands : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        
-    }
 
 }

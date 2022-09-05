@@ -7,11 +7,11 @@ public class PlayerHead : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Head");
+        //Debug.Log("Head");
 
-        if (collision.transform.gameObject.layer == 6  && GameManager.Instance.time2)       //머리에 Bloack GameOver
+        if (collision.transform.gameObject.layer == 6  && GameManager.Instance.time2 && collision.transform.parent.name == "Tetromino")       //머리에 Bloack GameOver
         {
-            Debug.Log("Die");
+            Debug.Log("Head_Die");
 
             GameManager.Instance.GameOver("BlockHead");
 
