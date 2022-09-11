@@ -139,13 +139,14 @@ public class GameManager : MonoBehaviour
         UiManager.instance.ToTime2();
 
 
-        sound.pitch[(int)Define.Sound.Bgm] = UiManager.instance.BGMSliderValue();
-        sound.pitch[(int)Define.Sound.Effect] = UiManager.instance.SFXSliderValue();
+        sound.volume[(int)Define.Sound.Bgm1] = UiManager.instance.BGMSliderValue();
+        sound.volume[(int)Define.Sound.Effect] = UiManager.instance.SFXSliderValue();
 
 
-        sound.Play("JumprisBgm2",Define.Sound.Bgm);
+        //sound.Play("JumprisBgm2",Define.Sound.Bgm1);
 
         UiManager.instance.Pause_Start();
+        sound.Play("", Define.Sound.Bgm1);
     }
 
     public void BestScoreUpdate()
@@ -342,4 +343,19 @@ public class GameManager : MonoBehaviour
         
     }
 
+    public void FadeIn(Define.Sound BGM)
+    {
+
+        IEnumerator FadeIn = sound.FadeIn(BGM);
+        StartCoroutine("FadeIn", BGM);
+
+    }
+    public void FadeOut(Define.Sound BGM)
+    {
+
+        IEnumerator FadeOut = sound.FadeOut(BGM);
+        StartCoroutine("FadeOut", BGM);
+
+    }
+    
 }

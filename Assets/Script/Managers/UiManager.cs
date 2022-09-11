@@ -459,9 +459,9 @@ public class UiManager : MonoBehaviour
             //Debug.Log("Option");
             if(SFXSliderbefore != SFXSlider.value)
             {
-                Debug.Log("SFX.volume");
+                //Debug.Log("SFX.volume");
 
-                GameManager.Instance.sound.pitch[(int)Define.Sound.Effect] = SFXSlider.value;
+                GameManager.Instance.sound.volume[(int)Define.Sound.Effect] = SFXSlider.value;
                 SFXSliderbefore = SFXSlider.value;
                 GameManager.Instance.sound._audioSources[(int)Define.Sound.Effect].volume = SFXSlider.value;
                 PlayerPrefs.SetFloat(SFXSliderstr, SFXSlider.value);
@@ -469,9 +469,13 @@ public class UiManager : MonoBehaviour
             }
             if (BGMSliderbefore != BGMSlider.value)
             {
-                GameManager.Instance.sound.pitch[(int)Define.Sound.Bgm] = BGMSlider.value;
+                GameManager.Instance.sound.volume[(int)Define.Sound.Bgm1] = BGMSlider.value;
+                GameManager.Instance.sound.volume[(int)Define.Sound.Bgm2] = BGMSlider.value;
+
                 BGMSliderbefore = BGMSlider.value;
-                GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm].volume = BGMSlider.value;
+                GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm1].volume = BGMSlider.value;
+                GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm2].volume = BGMSlider.value;
+
                 PlayerPrefs.SetFloat(BGMSliderstr, BGMSlider.value);
 
             }
