@@ -17,6 +17,7 @@ public class SoundManager
     public void init()
     {
         GameObject root= GameObject.Find("@Sound");
+        Debug.Log("@Sound");
         if(root == null)
         {
             root = new GameObject { name = "@Sound" };
@@ -31,8 +32,8 @@ public class SoundManager
             }
             _audioSources[(int)Define.Sound.Bgm1].loop = true;
             _audioSources[(int)Define.Sound.Bgm2].loop = true;
-            audioClip_BGM1 = GetOrAddAudioClip("BlockBgm");
-            audioClip_BGM2 = GetOrAddAudioClip("JumpBgm");
+            audioClip_BGM1 = GetOrAddAudioClip("Sound/JumpBgm");
+            audioClip_BGM2 = GetOrAddAudioClip("Sound/BlockBgm");
 
             _audioSources[(int)Define.Sound.Bgm1].volume = 0;
             _audioSources[(int)Define.Sound.Bgm2].volume = 0;
@@ -41,7 +42,9 @@ public class SoundManager
             _audioSources[(int)Define.Sound.Bgm2].clip = audioClip_BGM2;
 
             _audioSources[(int)Define.Sound.Bgm1].Play();
-            _audioSources[(int)Define.Sound.Bgm1].Play();
+            _audioSources[(int)Define.Sound.Bgm2].Play();
+
+
 
 
         }
@@ -79,8 +82,8 @@ public class SoundManager
 
             case Define.Sound.Bgm1:
 
-                GameManager.Instance.FadeIn(Define.Sound.Bgm1);
                 GameManager.Instance.FadeOut(Define.Sound.Bgm2);
+                GameManager.Instance.FadeIn(Define.Sound.Bgm1);
 
                 //_audioSources[(int)Define.Sound.Bgm1].volume = volume[(int)Define.Sound.Bgm1];
                 //_audioSources[(int)Define.Sound.Bgm2].volume = 0;
@@ -88,8 +91,8 @@ public class SoundManager
                 break;
             case Define.Sound.Bgm2:
 
-                GameManager.Instance.FadeIn(Define.Sound.Bgm1);
-                GameManager.Instance.FadeOut(Define.Sound.Bgm2);
+                GameManager.Instance.FadeOut(Define.Sound.Bgm1);
+                GameManager.Instance.FadeIn(Define.Sound.Bgm2);
 
                 //_audioSources[(int)Define.Sound.Bgm1].volume = 0;
                 //_audioSources[(int)Define.Sound.Bgm2].volume = volume[(int)Define.Sound.Bgm2];
@@ -128,28 +131,35 @@ public class SoundManager
 
     public IEnumerator FadeIn(Define.Sound sound)
     {
-        for (int i = 0; i < (1.0f / FadeInTime) && _audioSources[(int)sound].volume >= volume[(int)sound]; i++)
+        yield return new WaitForSeconds(1.0f);
+        float tmp = Mathf.Max(volume[(int)Define.Sound.Bgm1], volume[(int)Define.Sound.Bgm2]);
+        for (int i = 0; i < (1.0f / FadeInTime) && _audioSources[(int)sound].volume <= volume[(int)sound]; i++)
         {
 
             yield return new WaitForSeconds(FadeInTime);
-            _audioSources[(int)sound].volume += volume[(int)sound]/ (1.0f/ FadeInTime);
+            _audioSources[(int)sound].volume += tmp / (1.0f/ FadeInTime);
+            Debug.Log("InVolume: " + _audioSources[(int)sound].volume+ " Point " + tmp / (1.0f / FadeInTime));
             
         }
         _audioSources[(int)sound].volume = volume[(int)sound];
+        Debug.Log("InVolume: " + _audioSources[(int)sound].volume + " Point " + tmp / (1.0f / FadeInTime));
+
     }
 
-    public IEnumerator FadeOut(Define.Sound sound, float delayTime = 1.0f)
+    public IEnumerator FadeOut(Define.Sound sound)
     {
-        yield return new WaitForSeconds(delayTime);
-
-        for (int i = 0; i < (1.0 / FadeOutTime) && _audioSources[(int)sound].volume <= 0; i++)
+        float tmp = Mathf.Max(volume[(int)Define.Sound.Bgm1], volume[(int)Define.Sound.Bgm2]);
+        for (int i = 0; i < (1.0 / FadeOutTime) && _audioSources[(int)sound].volume >= 0; i++)
         {
 
             yield return new WaitForSeconds(FadeInTime);
-            _audioSources[(int)sound].volume -= volume[(int)sound] / (1.0f / FadeOutTime);
+            _audioSources[(int)sound].volume -= tmp / (1.0f / FadeOutTime);
+            Debug.Log("OutVolume: " + _audioSources[(int)sound].volume + " Point " + tmp / (1.0f / FadeInTime));
+
 
         }
         _audioSources[(int)sound].volume = 0;
+        Debug.Log("OutVolume: " + _audioSources[(int)sound].volume + " Point " + tmp / (1.0f / FadeInTime));
 
     }
 

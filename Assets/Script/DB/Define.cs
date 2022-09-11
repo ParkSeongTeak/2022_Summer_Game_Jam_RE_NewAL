@@ -7,8 +7,8 @@ public class Define
     public enum Sound
     {
         Effect,
-        Bgm1,       //BlockBgm
-        Bgm2,       //JumpBgm
+        Bgm1,       //JumpBgm
+        Bgm2,       //BlockBgm
         Length,
     }
 }

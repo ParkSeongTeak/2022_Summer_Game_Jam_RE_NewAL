@@ -7,9 +7,12 @@ public class SoundEffect : MonoBehaviour
 
     [SerializeField]
     string Sound;
+    [SerializeField]
+    Define.Sound Type;
+
     // Start is called before the first frame update
-    public void Sound_One_Shot()
+    public void Sound_Player()
     {
-        GameManager.Instance.sound.Play(Sound);
+        GameManager.Instance.sound.Play(Sound, Type);
     }
 }

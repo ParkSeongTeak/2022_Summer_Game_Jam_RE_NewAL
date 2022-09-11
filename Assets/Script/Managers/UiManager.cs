@@ -115,6 +115,8 @@ public class UiManager : MonoBehaviour
         {
             Prologue_Show();
         }
+        GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm2].volume = BGMSlider.value;
+
     }
 
     public void ToTime1()           //player
@@ -472,10 +474,22 @@ public class UiManager : MonoBehaviour
                 GameManager.Instance.sound.volume[(int)Define.Sound.Bgm1] = BGMSlider.value;
                 GameManager.Instance.sound.volume[(int)Define.Sound.Bgm2] = BGMSlider.value;
 
+
+
                 BGMSliderbefore = BGMSlider.value;
+
                 GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm1].volume = BGMSlider.value;
                 GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm2].volume = BGMSlider.value;
 
+
+                if (GameManager.Instance.time1) {
+                    GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm1].volume = BGMSlider.value;
+                    GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm2].volume = 0f;
+                }
+                else {
+                    GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm1].volume = 0f;
+                    GameManager.Instance.sound._audioSources[(int)Define.Sound.Bgm2].volume = BGMSlider.value;
+                }
                 PlayerPrefs.SetFloat(BGMSliderstr, BGMSlider.value);
 
             }

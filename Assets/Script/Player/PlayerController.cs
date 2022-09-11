@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
     private bool isJumpButtonPressing;
 
     //Sound°ü·Ã 
-    float walkSoundTime = 0.2f;
+    //float walkSoundTime = 0.2f;
 
     // Start is called before the first frame update
     void Start()
@@ -355,14 +355,9 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator JumpStart()
     {
-        Debug.Log("Jumpstart_sequence");
         Foot.SetActive(false);
         yield return new WaitForSeconds(0.25f);
         Foot.SetActive(true);
-        Debug.Log("JumpEnd");
-
-
-
-
+        
     }
 }

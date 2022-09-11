@@ -10,8 +10,7 @@ public class PlayerFoot : MonoBehaviour
 
 
     public bool Ground = true;
-    float RayLenght = 0.25f; 
-
+    
     // Start is called before the first frame update
     void Start()
     {

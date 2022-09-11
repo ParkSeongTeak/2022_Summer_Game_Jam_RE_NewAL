@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
             _tetris_Num = value; 
             if (NextTetrisIDX[0] == -1) 
             {
-                
+                GameManager.instance.sound.Play("", Define.Sound.Bgm1);
                 _tetris_Num = 0;
                 time1 = true;
                 UiManager.instance.ToTime1();
@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
         //sound.Play("JumprisBgm2",Define.Sound.Bgm1);
 
         UiManager.instance.Pause_Start();
-        sound.Play("", Define.Sound.Bgm1);
+        //sound.Play("", Define.Sound.Bgm2);
     }
 
     public void BestScoreUpdate()
@@ -236,6 +236,7 @@ public class GameManager : MonoBehaviour
     {
         
         time1 = true;
+        
         Lava.GetComponent<Lava>().StartLavaMove();
         RandArrCreate();
 
@@ -269,6 +270,8 @@ public class GameManager : MonoBehaviour
 
     public void ToTime2()   //TT_Time
     {
+
+        
         tetris_Num = 0;
         time2 = true;
         if(Lava != null)
@@ -347,14 +350,14 @@ public class GameManager : MonoBehaviour
     {
 
         IEnumerator FadeIn = sound.FadeIn(BGM);
-        StartCoroutine("FadeIn", BGM);
+        StartCoroutine(sound.FadeIn(BGM));
 
     }
     public void FadeOut(Define.Sound BGM)
     {
 
         IEnumerator FadeOut = sound.FadeOut(BGM);
-        StartCoroutine("FadeOut", BGM);
+        StartCoroutine(sound.FadeOut(BGM));
 
     }
     

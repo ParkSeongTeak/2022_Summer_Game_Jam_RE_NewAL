@@ -3579,6 +3579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sound: DirtRoad
+  Type: 0
 --- !u!1 &629731611
 GameObject:
   m_ObjectHideFlags: 0
@@ -4841,6 +4842,7 @@ GameObject:
   - component: {fileID: 868723015}
   - component: {fileID: 868723014}
   - component: {fileID: 868723013}
+  - component: {fileID: 868723016}
   m_Layer: 5
   m_Name: ToTetris
   m_TagString: Untagged
@@ -4936,6 +4938,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 868723016}
+        m_TargetAssemblyTypeName: SoundEffect, Assembly-CSharp
+        m_MethodName: Sound_Player
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &868723014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4974,6 +4988,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 868723011}
   m_CullTransparentMesh: 1
+--- !u!114 &868723016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868723011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beb9a213e3d85fe46a125c049990c6eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sound: 
+  Type: 2
 --- !u!1 &881720771
 GameObject:
   m_ObjectHideFlags: 0

@@ -210,7 +210,6 @@ public class Tetris : MonoBehaviour
             {
                 GameManager.Instance.tetris_Num = GameManager.Instance.tetris_Num + 1;          //38
 
-                Debug.Log("GameManager.Instance.tetris_Num " + GameManager.Instance.tetris_Num);
                 AddToBoard(tetrominoNode);
                 if (GameManager.Instance.time1) { return false; }
                 //CheckBoardColumn();
