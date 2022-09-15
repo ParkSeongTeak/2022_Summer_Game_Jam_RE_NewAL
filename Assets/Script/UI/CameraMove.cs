@@ -10,6 +10,9 @@ public class CameraMove : MonoBehaviour
 {
     [SerializeField]
     GameObject Player;
+    [SerializeField]
+    GameObject HardCodingFormat;
+
     Vector3 CameraPos;
 
     // Start is called before the first frame update
@@ -17,8 +20,11 @@ public class CameraMove : MonoBehaviour
     private void Awake()
     {
         CameraPos = this.gameObject.transform.position;
-       
 
+        int i_width = Screen.width;
+        int i_height = Screen.height;
+        Debug.Log(i_width + "" + i_height);
+        HardCodingFormat.transform.localScale = new Vector3 (i_width/1440f, i_height/2960f);
     }
 
     void Start()
