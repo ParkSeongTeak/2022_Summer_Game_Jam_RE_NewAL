@@ -46,17 +46,25 @@ public class PlayerFoot : MonoBehaviour
         
     }
     */
- 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        string tag = collision.transform.tag;
+        if (tag == "Lava")
+        {
+            GameManager.Instance.GameOver("Lava");
+        }
+    }
+
+        private void OnTriggerStay2D(Collider2D collision)
     {
 
         string tag = collision.transform.tag;
 
         switch (tag)
         {
-            case "Lava" :
-                GameManager.Instance.GameOver("Lava");
-                break;
+            //case "Lava" :
+            //    GameManager.Instance.GameOver("Lava");
+            //    break;
             case "Block":
                 Player.GetComponent<PlayerController>().isGrounded();
                 Ground = true;

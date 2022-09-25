@@ -291,21 +291,29 @@ public class Tetris : MonoBehaviour
     void CreateBackground()
     {
         Color color = Color.gray;
-        Sprites = Resources.LoadAll<Sprite>("Sprite/Empty");
-
-      
+        //Sprites = Resources.LoadAll<Sprite>("Sprite/Empty");
+        //TetrisBlock
+        Sprites = Resources.LoadAll<Sprite>("Sprite/TetrisBlock/block4");
+        
         // 좌우 테두리
         color.a = 1.0f;
         for (int y = halfHeight; y > -halfHeight; --y)
         {
-            CreateTile(backgroundNode, new Vector2(-halfWidth - 1, y), Sprites, 0);
-            CreateTile(backgroundNode, new Vector2(halfWidth, y), Sprites, 0);
+            //CreateTile(backgroundNode, new Vector2(-halfWidth - 1, y), Sprites, 0);
+            //CreateTile(backgroundNode, new Vector2(halfWidth, y), Sprites, 0);
+ 
+            CreateTile(backgroundNode, new Vector2(-halfWidth - 1, y), Sprites, 1);
+            CreateTile(backgroundNode, new Vector2(halfWidth, y), Sprites, 1);
+
+
         }
 
         // 아래 테두리
         for (int x = -halfWidth - 1; x <= halfWidth; ++x)
         {
-            CreateTile(backgroundNode, new Vector2(x, -halfHeight), Sprites, 0);
+            //CreateTile(backgroundNode, new Vector2(x, -halfHeight), Sprites, 0);
+            CreateTile(backgroundNode, new Vector2(x, -halfHeight), Sprites, 1);
+
         }
     }
     

@@ -18,7 +18,10 @@ public class MoveSlider : MonoBehaviour
     {
         instance = this;
     }
-
+    private void Start()
+    {
+        
+    }
     public float GetValue()
     {
         return instance.gameObject.GetComponent<Slider>().value;
@@ -30,4 +33,6 @@ public class MoveSlider : MonoBehaviour
         instance.gameObject.GetComponent<Slider>().value = 0.5f;
 
     }
+
+
 }

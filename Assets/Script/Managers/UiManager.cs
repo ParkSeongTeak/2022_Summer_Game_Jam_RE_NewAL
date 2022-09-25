@@ -13,7 +13,8 @@ public class UiManager : MonoBehaviour
     [SerializeField]
     GameObject GameOverScene;
     [SerializeField]
-    GameObject TetrisStage;
+    GameObject _TetrisStage;
+    public GameObject TetrisStage { get { return _TetrisStage; } }
     GameObject tilePrefab;
     [SerializeField]
     GameObject[] NextBlock_Pnt = new GameObject[5];
@@ -109,7 +110,7 @@ public class UiManager : MonoBehaviour
     {
         First = ProlChar.transform.position;
         Best_Score_Ui_Update();
-        Stage = TetrisStage.GetComponent<Tetris>();
+        Stage = _TetrisStage.GetComponent<Tetris>();
         tilePrefab = Resources.Load<GameObject>("Prefab/UItile");
         if(GameManager.Instance.prolInt == 0)
         {

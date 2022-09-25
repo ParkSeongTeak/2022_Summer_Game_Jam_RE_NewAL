@@ -311,15 +311,17 @@ public class GameManager : MonoBehaviour
 
     public void GameOver(string Sound = "")
     {
-        GameOverBool = true;
-        playerController.die = true;
-        GameManager.Instance.sound.Play(Sound);
-        UiManager.instance.Now_Score_Ui_Update();
+        if (!GameOverBool || !playerController.die ) {
+            GameOverBool = true;
+            playerController.die = true;
+            GameManager.Instance.sound.Play(Sound);
+            UiManager.instance.Now_Score_Ui_Update();
+            StartCoroutine("GameOver_Delay");
+        }
         BestScoreUpdate();
         UiManager.instance.Best_Score_Ui_Update();
 
-        StartCoroutine("GameOver_Delay");
-
+        
     }
     public void ReStart()
     {
