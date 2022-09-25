@@ -35,7 +35,7 @@ public class CameraMove : MonoBehaviour
     [SerializeField]
     GameObject HardCodingFormat;
 
-    public GameObject Pos;
+    public RectTransform Pos;
     public GameObject IMGIMG;
 
     Camera MyCamera = new Camera();
@@ -57,20 +57,51 @@ public class CameraMove : MonoBehaviour
 
         i_width = Screen.width;
         i_height = Screen.height;
+
+
+        /*사이사이 휴리스틱
+        *
+        * 2880
+        * 2960
+        * 3040
+        * 3200
+        * 3120
+        *
+        *가로 1080
+        *
+        *세로
+        * 1920
+        * 2100
+        * 2280
+        * 2400
+        */
+
         Debug.Log(i_width + "" + i_height);
-        if (i_height <= 2560) {
+        if (i_height <= 2560)
+        {
             HardCodingFormat.transform.localScale = new Vector3(i_width / 1440f, i_height / 2560f);
             yUp = (yUp * 2560f / i_height);
         }
-        if(i_height == 3040)
+        if (i_width >= 1400)    //1440기준
         {
-            yUp = 8f;
+            if (i_height <= 2880) { }
+            else if (i_height <= 2960) { }
+            else if (i_height <= 3040) { MyCamera.orthographicSize = 15.86f; }//        //size 15.86
+            else if (i_height <= 3120) { MyCamera.orthographicSize = 16.3f; }//-741.9  //16.3
+            else if (i_height <= 3200) { MyCamera.orthographicSize = 16.61f; }          //16.61
+
+
         }
-        if (i_height == 2560)
+        else//  1080기준
         {
-            yUp = 9.35f;
+            if (i_height <= 1920) { yUp = 8f; MyCamera.orthographicSize = 13.79f; }
+            else if (i_height <= 2100) { yUp = 9f; MyCamera.orthographicSize = 15.1f; }
+            else if (i_height <= 2280) { yUp = 9.5f;  MyCamera.orthographicSize = 15.86f; }//        //size 15.86
+            else if (i_height <= 2400) { yUp = 10f; MyCamera.orthographicSize = 16.57f; }//-741.9  //16.3
+            
         }
 
+     
 
 
     }
@@ -86,25 +117,15 @@ public class CameraMove : MonoBehaviour
 
         Debug.Log("BottomBGPosition.y" + BottomBGPosition.y);
 
-        
-        RaycastHit hit;
-        Ray ray = MyCamera.ScreenPointToRay(Pos.transform.position);
-        if (Physics.Raycast(ray, out hit))
-        {
-            Transform objectHit = hit.transform;
 
-            IMGIMG.transform.position = objectHit.position;
-
-            // Do something with the object that was hit by the raycast.
-        }
-
+       
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*
+        
         CameraPos.y = Player.transform.position.y + GameManager.Instance.CameraPlayerHeight;
         if (CameraPos.y < BottomBGPosition.y  + yUp)
         {
@@ -115,7 +136,7 @@ public class CameraMove : MonoBehaviour
         {
             this.gameObject.transform.position = CameraPos;
         }
-        */
+        
         
     }
 }
