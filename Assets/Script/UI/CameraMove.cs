@@ -84,6 +84,7 @@ public class CameraMove : MonoBehaviour
         }
         if (i_width >= 1400)    //1440±‚¡ÿ
         {
+            if (i_height <= 2560) { MyCamera.orthographicSize = 13.86f;  }
             if (i_height <= 2880) { }
             else if (i_height <= 2960) { }
             else if (i_height <= 3040) { MyCamera.orthographicSize = 15.86f; }//        //size 15.86
