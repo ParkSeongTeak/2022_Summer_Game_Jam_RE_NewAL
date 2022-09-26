@@ -48,3 +48,6 @@ TagManager:
   - name: ladder
     uniqueID: 1856656795
     locked: 0
+  - name: Lava
+    uniqueID: 137444245
+    locked: 0
