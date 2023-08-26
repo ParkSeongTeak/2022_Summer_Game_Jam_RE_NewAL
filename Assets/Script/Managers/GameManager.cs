@@ -295,9 +295,6 @@ public class GameManager : MonoBehaviour
     {
         if (NextTetrisIDX ==null ||NextTetrisIDX[0] == -1)
         {
-            //if (NextTetrisIDX == null) { Debug.Log("It's NULL"); }
-            //else { Debug.Log("It's NextTetris[0].first == -1" + " And " + NextTetrisIDX[0] + NextTetrisIDX[1] + NextTetrisIDX[2] + NextTetrisIDX[3] + NextTetrisIDX[4]); }
-
             for (int i = 0; i < 5; i++)
             {
                 NextTetrisIDX[i] = Random.Range(0, 10);
